@@ -1,0 +1,7 @@
+DEW: Vision Statement
+
+Provide BlueJ users the ability to analyze source code using a suite of code analysis
+tools. Our product (coupled with BleuJ) aims to (use BlueJ) help form a foundation of 
+high-quality code practices and industry standards for novice Java programmers to build 
+upon (using BlueJ). Students will use BleuJ in conjunction with our software to verify the correctness of their code. BlueJ provides a template for students to write sections of code in; these are referred to as source code. Our suite is a collection of tools that are designed to catch errors in source code. Our aim is to include tools that would be used to automate the process of finding and correcting a variety of bugs, flaws, and convention errors. These tools may use static analysis, which evaluates the source code text, or dynamic analysis, which evaluates the behavior of the code during run-time.
+
