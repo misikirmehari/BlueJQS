@@ -1,0 +1,11 @@
+User Stories for “Java Program Analysis”, that is designed to offer a suite of code development tools using the BlueJ Integrated Development Environment (IDE).
+
+1.	As a user, I want to be able to use source code analyzer tool, PMD, to report on the quality and correctness of my java programs. 
+2.	As a user, I want to be able to use static code analyzer tool, Checkstyle, to verify my java programs compiles with specific coding rules. 
+3.	As a user, I want to be able to use the tool, Roles Of Variables, to verify the actual use of a variable is consistent with a specific role assignment. 
+4.	As a user, I want to be able to use source code analyzer tool, SpotBugs, to find bugs in my java programs.
+5.	As a user, I want to be able to choose separate access of each suite tool to verify my programs have high quality and correctness.
+6.	As a user, I want to be able to choose access to run all suite tools at the same time to verify my programs have high quality and correctness.
+
+
+
