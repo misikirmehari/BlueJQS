@@ -1,10 +1,5 @@
 import bluej.extensions.*;
 import bluej.extensions.event.*;
-import bluej.extensions.editor.*;
-
-import java.net.URL;
-import javax.swing.*;
-import java.awt.event.*;
 
 /*
  * This is the starting point of a BlueJ Extension

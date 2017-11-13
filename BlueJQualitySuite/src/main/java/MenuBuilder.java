@@ -8,9 +8,9 @@ import java.io.InputStreamReader;
 
 public class MenuBuilder extends MenuGenerator {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-    private Frame frame;
+    private final Frame frame;
     private String javaFileName;
-    private Preferences preferences;
+    private final Preferences preferences;
 
     public MenuBuilder(Preferences preferences) {
         this.frame = null;
@@ -99,12 +99,15 @@ public class MenuBuilder extends MenuGenerator {
             reader.start();
             p.waitFor();
             StringBuilder output = new StringBuilder();
+
             for (int i = 0; i < preOutput.length(); i++) {
+                /*
                 if (i % 80 == 0) {
                     output.append("\n");
-                }
+                }*/
                 output.append(preOutput.charAt(i));
             }
+
             return output.toString();
         }
     }

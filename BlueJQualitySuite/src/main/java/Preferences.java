@@ -12,7 +12,7 @@ public class Preferences implements PreferenceGenerator {
     private JPanel panel;
     private JTextField pmdPath;
     private JTextField pmdOptions;
-    private BlueJ bluej;
+    private final BlueJ bluej;
     public static final String PROPERTY_PMD_PATH = "PMD.Path";
     public static final String PROPERTY_PMD_OPTIONS = "PMD.Options";
     private static final String PMD_OPTIONS_DEFAULT = "-format text -R java-basic,java-design -version 1.7 -language java";
