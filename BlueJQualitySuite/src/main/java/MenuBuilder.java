@@ -141,6 +141,7 @@ public class MenuBuilder extends MenuGenerator {
     }
 
     private String runCommand(String myCommand) throws IOException, InterruptedException {
+        System.out.println("Running command: '" + myCommand + "'");
         ProcessBuilder pb = new ProcessBuilder(myCommand.split(" +"));
         pb.redirectErrorStream(true);
         final Process p = pb.start();
