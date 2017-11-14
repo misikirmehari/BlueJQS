@@ -47,7 +47,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>PMDExecExt</mainClass>
+                            <mainClass>BlueJQualitySuite</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

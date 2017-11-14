@@ -17,8 +17,16 @@ public class MenuBuilder extends MenuGenerator {
         this.preferences = preferences;
     }
 
+    public JMenuItem getToolsMenuItem(BPackage bp) {
+        return new JMenuItem(new SpotbugsAction("Open Spotbugs"));
+    }
+
+    public void notifyPostToolsMenu(BPackage bp, JMenuItem jmi) {
+        System.out.println("Opening Spotbugs GUI...");
+    }
+
     public JMenuItem getClassMenuItem(BClass aClass) {
-        return new JMenuItem(new PMDAction("Check that code"));
+        return new JMenuItem(new MenuAction("Open Quality Suite Tools"));
     }
 
     public void notifyPostClassMenu(BClass bc, JMenuItem jmi) {
@@ -29,86 +37,133 @@ public class MenuBuilder extends MenuGenerator {
         }
     }
 
-    class PMDAction extends AbstractAction {
-        public PMDAction(String menuName) {
+    class SpotbugsAction extends AbstractAction {
+        public SpotbugsAction(String menuName) {
             putValue(AbstractAction.NAME, menuName);
         }
 
         public void actionPerformed(ActionEvent anEvent) {
-            if (javaFileName == null || javaFileName.trim().isEmpty()) {
-                JOptionPane.showMessageDialog(frame, "No file selected", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            String pmdPath = preferences.getPMDPath();
-            if (pmdPath == null || pmdPath.trim().isEmpty()) {
-                JOptionPane.showMessageDialog(frame, "The path to PMD Installation is not configured. "
-                                + "Please select the path under \"Tools / Preferences / Extensions / PMD\".",
-                        "No Path to PMD Installation", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
 
             try {
-                JOptionPane.showMessageDialog(frame, "Running PMD on selected Class (Click OK)");
-                String mycommand = preferences.getPMDPath() + "/bin/run.sh pmd " + preferences.getPMDOptions() + " -d " + javaFileName;
+                JOptionPane.showMessageDialog(frame, "Opening Spotbugs...");
+                String myCommand = "java -jar /Users/maxwell/spotbugs-3.1.0/lib/spotbugs.jar temp.jar";
+                String output = runCommand(myCommand);
 
-                if (SystemUtils.isWindows()) {
-                    mycommand = preferences.getPMDPath() + "\\bin\\pmd.bat " + preferences.getPMDOptions() + " -d " + javaFileName;
-                }
-
-                String output = runPMD(mycommand);
-
-                JOptionPane.showMessageDialog(frame, "Class Checked");
-
-                StringBuilder msg = new StringBuilder("Any problems found are displayed below:");
+                StringBuilder msg = new StringBuilder();
                 msg.append(LINE_SEPARATOR);
                 msg.append(output);
                 JOptionPane.showMessageDialog(frame, msg);
-            } catch (IOException e) {
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(frame, "Couldn't run PMD: " + e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(frame, "Couldn't run PMD: " + e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "Couldn't run Spotbugs: " + e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
             }
-            JOptionPane.showMessageDialog(frame, "PMD run completed");
+            JOptionPane.showMessageDialog(frame, "Spotbugs run completed");
         }
 
-        private String runPMD(String mycommand) throws IOException, InterruptedException {
-            ProcessBuilder pb = new ProcessBuilder(mycommand.split(" +"));
-            pb.redirectErrorStream(true);
-            final Process p = pb.start();
 
-            final StringBuilder preOutput = new StringBuilder();
-            Thread reader = new Thread(() -> {
-                BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                String s;
-                try {
-                    while ((s = stdInput.readLine()) != null ){
-                        preOutput.append(s);
-                        preOutput.append(LINE_SEPARATOR);
-                    }
-                } catch (IOException e) {
-                    preOutput.append(e.toString());
-                    e.printStackTrace();
-                } finally {
-                    try { stdInput.close(); } catch (IOException e) { /* quiet */ }
+    }
+
+    class MenuAction extends AbstractAction {
+        public MenuAction(String menuName) {
+            putValue(AbstractAction.NAME, menuName);
+        }
+
+        public void actionPerformed(ActionEvent anEvent) {
+            // validate java file
+            if (javaFileName == null || javaFileName.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(frame,
+                        "No file selected", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // build tools list to display
+            String[] menuItemArray = {"PMD", "Infer"};
+            StringBuilder menuItems = new StringBuilder();
+            for (int i = 0; i < menuItemArray.length; i++) {
+                String row = "(" + (i+1) + ") " + menuItemArray[i] + "\n";
+                menuItems.append(row);
+            }
+
+            // user makes tool choice
+            String toolChoice = JOptionPane.showInputDialog("Choose a tool from 1 to "
+                    + menuItemArray.length + ":\n" + menuItems.toString());
+
+            if (toolChoice.trim().equals("1")) {// PMD
+                String pmdPath = preferences.getPMDPath();
+                if (pmdPath == null || pmdPath.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(frame,
+                            "The path to PMD Installation is not configured. "
+                                    + "Please select the path under \"Tools / Preferences / Extensions / PMD\".",
+                            "No Path to PMD Installation", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
-            });
-            reader.setDaemon(true);
-            reader.start();
-            p.waitFor();
-            StringBuilder output = new StringBuilder();
 
-            for (int i = 0; i < preOutput.length(); i++) {
-                /*
-                if (i % 80 == 0) {
-                    output.append("\n");
-                }*/
-                output.append(preOutput.charAt(i));
+                String command;
+                if (!SystemUtils.isWindows()) {// macOS & GNU/Linux
+                    command = preferences.getPMDPath() + "/bin/run.sh pmd "
+                            + preferences.getPMDOptions() + " -d " + javaFileName;
+                } else {
+                    command = preferences.getPMDPath() + "\\bin\\pmd.bat "
+                            + preferences.getPMDOptions() + " -d " + javaFileName;
+                }
+                doMenuAction("PMD", command);
+
+            } else if (toolChoice.trim().equalsIgnoreCase("2")) {// Infer
+                doMenuAction("Infer", "infer capture -- javac " + javaFileName);
+
+            } else {// Invalid choice, returns
+                JOptionPane.showMessageDialog(null,
+                        "Pick a number to indicate your choice.");
+                return;
             }
-
-            return output.toString();
         }
+    }
+
+    private void doMenuAction(String menuItemName, String command) {
+        try {
+            JOptionPane.showMessageDialog(frame, "Running " + menuItemName
+                    + " on selected Class (Click OK)");
+
+            String output = runCommand(command);
+
+            JOptionPane.showMessageDialog(frame, "Class Checked");
+
+            StringBuilder msg = new StringBuilder("Any problems found are displayed below:");
+            msg.append(LINE_SEPARATOR);
+            msg.append(output);
+            JOptionPane.showMessageDialog(frame, msg);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(frame, "Couldn't run " + menuItemName
+                    + ": " + e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+        }
+        JOptionPane.showMessageDialog(frame, menuItemName + " run completed");
+    }
+
+    private String runCommand(String myCommand) throws IOException, InterruptedException {
+        ProcessBuilder pb = new ProcessBuilder(myCommand.split(" +"));
+        pb.redirectErrorStream(true);
+        final Process p = pb.start();
+
+        final StringBuilder output = new StringBuilder();
+        Thread reader = new Thread(() -> {
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String s;
+            try {
+                while ((s = stdInput.readLine()) != null ){
+                    output.append(s);
+                    output.append(LINE_SEPARATOR);
+                }
+            } catch (IOException e) {
+                output.append(e.toString());
+                e.printStackTrace();
+            } finally {
+                try { stdInput.close(); } catch (IOException e) { /* quiet */ }
+            }
+        });
+        reader.setDaemon(true);
+        reader.start();
+        p.waitFor();
+        return output.toString().replaceAll("\\. ", ".\n");
     }
 }

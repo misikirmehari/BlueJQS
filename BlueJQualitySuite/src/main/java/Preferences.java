@@ -3,8 +3,6 @@ import bluej.extensions.PreferenceGenerator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 
 public class Preferences implements PreferenceGenerator {
@@ -13,8 +11,8 @@ public class Preferences implements PreferenceGenerator {
     private JTextField pmdPath;
     private JTextField pmdOptions;
     private final BlueJ bluej;
-    public static final String PROPERTY_PMD_PATH = "PMD.Path";
-    public static final String PROPERTY_PMD_OPTIONS = "PMD.Options";
+    private static final String PROPERTY_PMD_PATH = "PMD.Path";
+    private static final String PROPERTY_PMD_OPTIONS = "PMD.Options";
     private static final String PMD_OPTIONS_DEFAULT = "-format text -R java-basic,java-design -version 1.7 -language java";
 
     public Preferences(BlueJ bluej) {
@@ -66,30 +64,24 @@ public class Preferences implements PreferenceGenerator {
         c.weightx = 0.0;
         c.fill = GridBagConstraints.NONE;
         panel.add(resetToDefaultButton, c);
-        selectPmdPathButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                fileChooser.setCurrentDirectory(new File(pmdPath.getText()));
-                int result = fileChooser.showDialog(panel, "Select");
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = fileChooser.getSelectedFile();
-                    boolean valid = verifyPMDPath(selectedFile);
-                    if (valid) {
-                        pmdPath.setText(selectedFile.getAbsolutePath());
-                    } else {
-                        JOptionPane.showMessageDialog(panel, "The selected path " + selectedFile + " doesn't seem to be"
-                                + " a PMD installation. E.g. the file bin/pmd.bat or bin/run.sh is missing.");
-                    }
+        selectPmdPathButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            fileChooser.setCurrentDirectory(new File(pmdPath.getText()));
+            int result = fileChooser.showDialog(panel, "Select");
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                boolean valid = verifyPMDPath(selectedFile);
+                if (valid) {
+                    pmdPath.setText(selectedFile.getAbsolutePath());
+                } else {
+                    JOptionPane.showMessageDialog(panel, "The selected path " + selectedFile + " doesn't seem to be"
+                            + " a PMD installation. E.g. the file bin/pmd.bat or bin/run.sh is missing.");
                 }
             }
         });
 
-        resetToDefaultButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                pmdOptions.setText(PMD_OPTIONS_DEFAULT);
-            }
-        });
+        resetToDefaultButton.addActionListener(e -> pmdOptions.setText(PMD_OPTIONS_DEFAULT));
     }
 
     private boolean verifyPMDPath(File selectedFile) {

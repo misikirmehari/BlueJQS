@@ -4,7 +4,7 @@ import bluej.extensions.event.*;
 /*
  * This is the starting point of a BlueJ Extension
  */
-public class PMDExecExt extends Extension implements PackageListener {
+public class BlueJQualitySuite extends Extension implements PackageListener {
     /*
      * When this method is called, the extension may start its work.
      */
