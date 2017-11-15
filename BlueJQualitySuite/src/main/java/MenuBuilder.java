@@ -77,7 +77,7 @@ public class MenuBuilder extends MenuGenerator {
             }
 
             // build tools list to display
-            String[] menuItemArray = {"PMD", "Infer"};
+            String[] menuItemArray = {"PMD"};
             StringBuilder menuItems = new StringBuilder();
             for (int i = 0; i < menuItemArray.length; i++) {
                 String row = "(" + (i+1) + ") " + menuItemArray[i] + "\n";
@@ -109,7 +109,7 @@ public class MenuBuilder extends MenuGenerator {
                 doMenuAction("PMD", command);
 
             } else if (toolChoice.trim().equalsIgnoreCase("2")) {// Infer
-                doMenuAction("Infer", "infer capture -- javac " + javaFileName);
+//                doMenuAction("Infer", "infer capture -- javac " + javaFileName);
 
             } else {// Invalid choice, returns
                 JOptionPane.showMessageDialog(null,
