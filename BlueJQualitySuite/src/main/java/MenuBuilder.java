@@ -127,7 +127,7 @@ public class MenuBuilder extends MenuGenerator {
             String output = runCommand(command);
 
             JOptionPane.showMessageDialog(frame, "Class Checked");
-            */
+
 
             StringBuilder msg = new StringBuilder("Any problems found are displayed below:");
             msg.append(LINE_SEPARATOR);
