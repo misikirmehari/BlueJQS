@@ -1,0 +1,30 @@
+BlueJ Checkstyle Extension
+==========
+This is an updated version of the BlueJ extension to use Checkstyle 8.2 with
+Java 1.8 on BlueJ 4.1.1
+
+To install, put the checkstyle.jar into the extension folder in the BlueJ
+directory and restart BlueJ
+
+
+This directory contains the distribution for BlueJ Checkstyle Extension.
+It is a tool for checking Java source code for adherence to a set of rules.
+
+Documentation is available in HTML format, in the docs/ directory.
+
+Licensing
+=========
+
+This software is licensed under the terms in the file named "LICENSE" in this
+directory.
+
+The software uses the ANTLR package (http://www.antlr.org). Its license terms
+are in the file named "RIGHTS.antlr" in this directory.
+
+The software uses the Jakarta Regexp package
+(http://jakarta.apache.org/regexp) and several packages from the
+Jakarta Commons project (http://jakarta.apache.org/commons).
+The license terms of these packages are in the file named
+"LICENSE.apache" in this directory.
+
+

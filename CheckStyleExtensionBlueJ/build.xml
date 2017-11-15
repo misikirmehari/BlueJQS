@@ -1,0 +1,272 @@
+<project name="bluejcheckstyle" default="build.bindist" basedir=".">
+
+  <!-- set global properties for this build -->
+  <!-- this is a comment to test the behavior of svn -->
+  <!-- Give user a chance to override without editing this file -->
+  <!-- (and without typing -D each time it compiles it) -->
+  <property file="checkstyle.buildproperties" />
+  <property file="${user.home}/checkstyle.buildproperties" />
+
+  <property name="bluejext.jar" value="lib/bluejext.jar" />
+  <property name="checkstyle-all.jar" value="lib/checkstyle-all.jar" />
+
+  <property name="dist.dir" value="target/dist" />
+
+  <property name="bluej.dir" value="C:/BlueJ" />
+
+  <property name="extension-version" value="6.0-0" />
+  <property name="extension" value="checkstyle-extension-${extension-version}" />
+
+  <property name="dist.extensions.dir" value="${dist.dir}/${extension}/lib/extensions"/>
+  <property name="dist.docs.dir" value="${dist.dir}/${extension}/docs/extensions/checkstyle"/>
+
+  <!-- add classes to generate Javadoc -->
+  <path id="javadoc.classpath">
+    <pathelement location="${ant.home}/lib/crimson.jar" />
+    <path refid="run.classpath" />
+  </path>
+
+  <path id="build.classpath">
+    <pathelement location="${bluejext.jar}" />
+    <pathelement location="${checkstyle-all.jar}" />
+    <pathelement location="${ant.home}/lib/ant.jar" />
+  </path>
+
+  <path id="run.classpath">
+    <pathelement location="target/tests" />
+    <pathelement location="target/checkstyle" />
+    <path refid="build.classpath" />
+  </path>
+
+  <path id="tests.buildpath">
+    <path refid="run.classpath" />
+  </path>
+
+  <target name="display.classpath" description="Displays the run classpath">
+    <property name="asd" refid="run.classpath" />
+    <echo message="Classpath is ${asd}" />
+  </target>
+
+  <!-- -->
+  <!-- Cleanup targets -->
+  <!-- -->
+  <target name="clean" description="Cleans any directories and generated files">
+    <delete dir="target" />
+  </target>
+
+  <!-- -->
+  <!-- COMPILE TARGETS -->
+  <!-- -->
+  <target name="compile.checkstyle"
+          description="Compiles the source code">
+    <mkdir dir="target/checkstyle" />
+    <javac srcdir="src/checkstyle"
+           destdir="target/checkstyle"
+           deprecation="on" debug="on"
+           classpathref="build.classpath">
+     <compilerarg value="-Xlint:unchecked"/>
+    </javac>
+  </target>
+
+  <!-- Compiles only the test code. Input files are excluded from
+       compilation, they contain code like assert statements
+       that does not compile on all JDKs -->
+  <target name="compile.tests" depends="compile.checkstyle"
+          description="Compiles the test code">
+
+    <mkdir dir="target/tests" />
+    <depend srcdir="src/tests" destdir="target/tests" closure="yes"/>
+    <javac srcdir="src/tests"
+           destdir="target/tests"
+           deprecation="on" debug="on"
+           classpathref="tests.buildpath" />
+  </target>
+
+  <!-- runs a command line version of Checkstyle  -->
+  <target name="run.checkstyle" depends="compile.tests"
+          description="Runs the command line version on a file">
+    <java classname="com.puppycrawl.tools.checkstyle.plugins.bluej.Main"
+          fork="yes"
+          dir="."
+          classpathref="run.classpath">
+          <sysproperty key="checkstyle.header.file" value="docs/java.header"/>
+      <arg value="-c"/>
+      <arg file="docs/sun_checks.xml"/>
+      <arg value="-r"/>
+      <arg file="src/checkstyle/com/puppycrawl/tools/checkstyle/plugins/bluej"/>
+    </java>
+  </target>
+
+  <!-- -->
+  <!-- COMPILE TARGETS -->
+  <!-- -->
+  <target name="checkstyle.checkstyle" depends="compile.checkstyle"
+          description="Runs checkstyle against the extension's sources">
+    <taskdef name="checkstyle"
+             classname="com.puppycrawl.tools.checkstyle.CheckStyleTask">
+      <classpath refid="run.classpath"/>
+    </taskdef>
+    <delete file="target/cachefile" />
+
+    <property name="checkstyle.pattern.todo" value="NOTHingWillMatCH_-"/>
+    <property name="check.config" location="docs/sun_checks.xml"/>
+    <checkstyle config="${check.config}" failOnViolation="false">
+      <fileset dir="src/checkstyle"
+               includes="**/*.java,**/*.properties"
+               excludes="**/Generated*.java,**/gui/*"/>
+      <formatter type="plain"/>
+      <formatter type="xml" toFile="target/cs_errors.xml"/>
+      <classpath refid="run.classpath"/>
+      <property key="checkstyle.cache.file" file="target/cachefile"/>
+      <property key="checkstyle.header.file" file="docs/java.header"/>
+      <property key="checkstyle.suppressions.file" file="docs/suppressions.xml"/>
+      <property key="checkstyle.importcontrol.file" file="docs/import-control.xml"/>
+      <property key="translation.severity" value="warning"/>
+    </checkstyle>
+  </target>
+
+  <!-- -->
+  <!-- DIST TARGETS -->
+  <!-- -->
+  <target name="build.extension" depends="compile.checkstyle"
+          description="Builds the extension jar file">
+    <mkdir dir="${dist.dir}" />
+    <mkdir dir="${dist.extensions.dir}" />
+    <jar jarfile="${dist.extensions.dir}/${extension}.jar"
+         manifest="config/manifest.mf"
+         update="false">
+      <fileset dir="target/checkstyle"/>
+      <fileset dir="docs">
+        <include name="*.xml"/>
+      </fileset>
+      <zipfileset src="${checkstyle-all.jar}">
+        <exclude name="META-INF/"/>
+      </zipfileset>
+    </jar>
+  </target>
+
+  <target name="build.bindist" depends="build.extension,javadoc"
+          description="Builds the compressed distribution files">
+    <delete dir="${dist.extensions.dir}/checkstyle" />
+    <mkdir dir="${dist.extensions.dir}/checkstyle" />
+    <mkdir dir="${dist.docs.dir}" />
+
+    <!--remove antlr from checkstyle-all jar -->
+    <!--
+    <mkdir dir="${dist.dir}/tmp"/>
+    <unjar src="${checkstyle-all.jar}"
+           dest="${dist.dir}/tmp" />
+    <delete dir="${dist.dir}/tmp/antlr" />
+    <jar jarfile="${dist.extensions.dir}/checkstyle/checkstyle-all.jar"
+         basedir="${dist.dir}/tmp" />
+    <delete dir="${dist.dir}/tmp" />
+    -->
+
+    <!-- copy stuff without filtering -->
+    <copy todir="${dist.docs.dir}">
+      <fileset dir =".">
+      	<include name="LICENSE*"/>
+        <include name="README"/>
+        <include name="RIGHTS.antlr"/>
+        <include name="contrib/**"/>
+        <include name="**/.cvsignore"/>
+        <include name="**/CVS"/>
+      </fileset>
+      <fileset dir="./docs">
+        <include name="**"/>
+        <exclude name="*.xml"/>
+        <exclude name="*.txt"/>
+        <exclude name="java.header"/>
+      </fileset>
+    </copy>
+    <copy todir="${dist.extensions.dir}/checkstyle">
+      <fileset dir="./docs">
+        <include name="*.xml"/>
+        <include name="java.header"/>
+      </fileset>
+      <fileset dir="./lib">
+        <include name="checkstyle*.jar"/>
+      </fileset>
+    </copy>
+    <!-- create the final zip & tar/gzip files -->
+    <zip zipfile="${dist.dir}/checkstyle-extension-${extension-version}.zip">
+      <fileset dir="${dist.dir}/${extension}">
+        <include name="**"/>
+      </fileset>
+    </zip>
+    <tar tarfile="${dist.dir}/checkstyle-extension-${extension-version}.tar" longfile="gnu"
+         basedir="${dist.dir}/${extension}" includes="**" />
+    <gzip zipfile="${dist.dir}/checkstyle-extension-${extension-version}.tar.gz"
+          src="${dist.dir}/checkstyle-extension-${extension-version}.tar" />
+  </target>
+
+  <target name="build.srcdist" depends="checkstyle.checkstyle"
+          description="Builds the compressed source files for distribution">
+    <delete dir="${dist.dir}/checkstyle-extension-src-${extension-version}" />
+    <mkdir dir="${dist.dir}/checkstyle-extension-src-${extension-version}" />
+    <copy todir="${dist.dir}/checkstyle-extension-src-${extension-version}">
+      <fileset dir=".">
+        <include name="LICENSE*"/>
+        <include name="README"/>
+        <include name="TODO"/>
+        <include name="build.xml"/>
+        <include name="config/**"/>
+        <include name="docs/*"/>
+        <include name="${bluejext.jar}"/>
+        <include name="${checkstyle-all.jar}"/>
+        <include name="${checkstyle-optional.jar}"/>
+        <include name="src/**"/>
+        <exclude name="src/tests/**"/>
+      </fileset>
+    </copy>
+    <!-- Produce the final distributions -->
+    <zip zipfile="${dist.dir}/checkstyle-extension-src-${extension-version}.zip">
+      <fileset dir="${dist.dir}">
+        <include name="checkstyle-extension-src-${extension-version}/**"/>
+      </fileset>
+    </zip>
+    <tar tarfile="${dist.dir}/checkstyle-extension-src-${extension-version}.tar" longfile="gnu"
+         basedir="${dist.dir}" includes="checkstyle-extension-src-${extension-version}/**" />
+    <gzip zipfile="${dist.dir}/checkstyle-extension-src-${extension-version}.tar.gz"
+          src="${dist.dir}/checkstyle-extension-src-${extension-version}.tar" />
+  </target>
+
+  <target name="javadoc" depends="compile.checkstyle"
+          description="Creates the javadoc html files">
+    <mkdir dir="docs/api" />
+    <javadoc sourcepath="src/checkstyle" destdir="docs/api"
+             packagenames="com.puppycrawl.tools.checkstyle.*"
+             Windowtitle="Checkstyle Extension API"
+             classpathref="javadoc.classpath"
+             Use="true"
+             Footer="&lt;a target=&quot;_top&quot; href=&quot;./{@docRoot}/../index.html&quot;&gt;Back to the Checkstyle Extension Home Page&lt;/a&gt;">
+      <link href="https://docs.oracle.com/javase/8/docs/api/"/>
+      <link href="http://checkstyle.sourceforge.net/apidocs/"/>
+    </javadoc>
+  </target>
+
+  <!-- -->
+  <!-- INSTALL TARGETS -->
+  <!-- -->
+  <target name="install.extension" depends="build.extension"
+          description="Installs the extension in BlueJ">
+    <copy file="${dist.extensions.dir}/${extension}.jar"
+          todir="${bluej.dir}/lib/extensions" />
+  </target>
+
+  <!-- TESTS -->
+  <target name="build.test.extension" depends="compile.tests"
+          description="Builds the test extension jar file">
+    <mkdir dir="${dist.dir}/tests" />
+    <jar jarfile="${dist.dir}/tests/test2.jar"
+         basedir="target/tests"
+         manifest="config/tests/manifest.mf" />
+  </target>
+
+   <target name="install.test.extension" depends="build.test.extension"
+          description="Installs the test extension in BlueJ">
+    <copy file="${dist.dir}/tests/test.jar"
+          todir="${bluej.dir}/lib/extensions" />
+  </target>
+
+</project>
