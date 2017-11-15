@@ -11,7 +11,7 @@ AUTHORS: Maxwell Stark, Hunter Hobbs, Erin Gurnett, Vicky Lym, Misikir Mehari, H
 Under the consultation of Dr. Jody Paul,Metropolitan State University of Denver, 2017.
 
 
-This directory contains the exectuable jar file for the Quality Analysis Suite for BlueJ 4.1.1
+This directory contains the executable jar file for the Quality Analysis Suite for BlueJ 4.1.1
 as well as all relevant source code for future maintenance and enhancements. Currently the 
 extension provides static code analysis of a chosen class file using PMD. The instructions for
 installing and running the extension can be found below. Enjoy!
@@ -21,14 +21,14 @@ installing and running the extension can be found below. Enjoy!
 ===============================================================================================
 To use the Quality Analysis Suite for BlueJ, open the main class window. Right click on a class
 object and at the bottom of the menu - click on "Check that code." A dialog box will pop up to
-tell you that the class was or wasn't check sucessfully, followed by another dialog box that 
+tell you that the class was or wasn't check successfully, followed by another dialog box that 
 will list all the errors that PMD found for that class. To run a different class, follow the 
 same steps.
 
 
 - INSTALLATION -
 ===============================================================================================
-Currently the extension requires that you must install PMD on your oporating machine. You can
+Currently the extension requires that you must install PMD on your operating machine. You can
 download PMD here: https://sourceforge.net/projects/pmd/files/pmd/ 
 After you have downloaded, extract the zip file somewhere on your computer that you can easily
 find. On a Linux/Unix machine, it's suggested to install PMD under ~/pmd-bin-5.3.2/ and for 
