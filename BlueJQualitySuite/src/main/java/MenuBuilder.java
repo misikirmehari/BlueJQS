@@ -17,13 +17,13 @@ public class MenuBuilder extends MenuGenerator {
         this.preferences = preferences;
     }
 
-    public JMenuItem getToolsMenuItem(BPackage bp) {
-        return new JMenuItem(new SpotbugsAction("Open Spotbugs"));
-    }
+//    public JMenuItem getToolsMenuItem(BPackage bp) {
+//        return new JMenuItem(new SpotbugsAction("Open Spotbugs"));
+//    }
 
-    public void notifyPostToolsMenu(BPackage bp, JMenuItem jmi) {
-        System.out.println("Opening Spotbugs GUI...");
-    }
+//    public void notifyPostToolsMenu(BPackage bp, JMenuItem jmi) {
+//        System.out.println("Opening Spotbugs GUI...");
+//    }
 
     public JMenuItem getClassMenuItem(BClass aClass) {
         return new JMenuItem(new MenuAction("Open Quality Suite Tools"));
@@ -37,31 +37,31 @@ public class MenuBuilder extends MenuGenerator {
         }
     }
 
-    class SpotbugsAction extends AbstractAction {
-        public SpotbugsAction(String menuName) {
-            putValue(AbstractAction.NAME, menuName);
-        }
-
-        public void actionPerformed(ActionEvent anEvent) {
-
-            try {
-                JOptionPane.showMessageDialog(frame, "Opening Spotbugs...");
-                String myCommand = "java -jar /Users/maxwell/spotbugs-3.1.0/lib/spotbugs.jar temp.jar";
-                String output = runCommand(myCommand);
-
-                StringBuilder msg = new StringBuilder();
-                msg.append(LINE_SEPARATOR);
-                msg.append(output);
-                JOptionPane.showMessageDialog(frame, msg);
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(frame, "Couldn't run Spotbugs: " + e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-            }
-            JOptionPane.showMessageDialog(frame, "Spotbugs run completed");
-        }
-
-
-    }
+//    class SpotbugsAction extends AbstractAction {
+//        public SpotbugsAction(String menuName) {
+//            putValue(AbstractAction.NAME, menuName);
+//        }
+//
+//        public void actionPerformed(ActionEvent anEvent) {
+//
+//            try {
+//                JOptionPane.showMessageDialog(frame, "Opening Spotbugs...");
+//                String myCommand = "java -jar /Users/maxwell/spotbugs-3.1.0/lib/spotbugs.jar temp.jar";
+//                String output = runCommand(myCommand);
+//
+//                StringBuilder msg = new StringBuilder();
+//                msg.append(LINE_SEPARATOR);
+//                msg.append(output);
+//                JOptionPane.showMessageDialog(frame, msg);
+//            } catch (IOException | InterruptedException e) {
+//                e.printStackTrace();
+//                JOptionPane.showMessageDialog(frame, "Couldn't run Spotbugs: " + e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+//            }
+//            JOptionPane.showMessageDialog(frame, "Spotbugs run completed");
+//        }
+//
+//
+//    }
 
     class MenuAction extends AbstractAction {
         public MenuAction(String menuName) {
