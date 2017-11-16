@@ -13,17 +13,18 @@ Under the consultation of Dr. Jody Paul,Metropolitan State University of Denver,
 
 This directory contains the executable jar file for the Quality Analysis Suite for BlueJ 4.1.1
 as well as all relevant source code for future maintenance and enhancements. Currently the 
-extension provides static code analysis of a chosen class file using PMD. The instructions for
-installing and running the extension can be found below. Enjoy!
+extension provides a quality suite framework that includes PMD to perform static code analysis. 
+The instructions for installing and running the extension can be found below. Enjoy!
 
 
 - USE -
 ===============================================================================================
 To use the Quality Analysis Suite for BlueJ, open the main class window. Right click on a class
-object and at the bottom of the menu - click on "Check that code." A dialog box will pop up to
-tell you that the class was or wasn't check successfully, followed by another dialog box that 
-will list all the errors that PMD found for that class. To run a different class, follow the 
-same steps.
+object and at the bottom of the menu - click on "Open Quality Suite Tools". You will then see a
+dialog box prompting to choose which tool you would like to run (currently there is only one 
+option, 1 - PMD).  A dialog box will then pop up to tell you that the class was or wasn't check
+successfully, followed by another dialog box that will list all the errors that PMD found for 
+that class. To run a different class, follow the same steps.
 
 
 - INSTALLATION -
@@ -59,6 +60,9 @@ PMD documentation for available rulesets.
 
 - LICENSING -
 ===============================================================================================
+
+The following is the liscense information for PMD which uses BSD-style and apache liscenses:
+
 
 BSD-style license
 
