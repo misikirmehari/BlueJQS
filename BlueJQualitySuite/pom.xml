@@ -26,16 +26,6 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.5</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.5</version>
-        </dependency>
-        <dependency>
-            <groupId>bluejext</groupId>
-            <artifactId>bluejext</artifactId>
-            <version>3.1.5</version>
-        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -78,7 +68,7 @@
             <id>project_lib</id>
             <name>Repository in project's lib dir</name>
             <layout>default</layout>
-            <url>file:///${project.basedir}/lib</url>
+            <url>file:///${project.basedir}/src/main/lib</url>
             <releases><enabled>true</enabled></releases>
         </repository>
     </repositories>

@@ -77,7 +77,7 @@ public class MenuBuilder extends MenuGenerator {
             }
 
             // build tools list to display
-            String[] menuItemArray = {"PMD"};
+            String[] menuItemArray = {"PMD", "Pretend Tool"};
             StringBuilder menuItems = new StringBuilder();
             for (int i = 0; i < menuItemArray.length; i++) {
                 String row = "(" + (i+1) + ") " + menuItemArray[i] + "\n";
@@ -85,10 +85,17 @@ public class MenuBuilder extends MenuGenerator {
             }
 
             // user makes tool choice
-            String toolChoice = JOptionPane.showInputDialog("Choose a tool from 1 to "
-                    + menuItemArray.length + ":\n" + menuItems.toString());
+            String toolChoice = (String) JOptionPane.showInputDialog(null, "Which suite tool(s) would you like to use?",
+                    "BlueJQS", JOptionPane.QUESTION_MESSAGE, null, menuItemArray, menuItemArray[0]);
 
-            if (toolChoice.trim().equals("1")) {// PMD
+            // the pretend tool is there to test for multiple tools
+            if(toolChoice.trim().equals("Pretend Tool")){
+                JOptionPane.showMessageDialog(null, "Hello. You just clicked on the pretend tool. Thank you for testing our product.",
+                        "BlueJQS", JOptionPane.INFORMATION_MESSAGE);
+
+            }
+
+            else if (toolChoice.trim().equals("PMD")) {// PMD
                 String pmdPath = preferences.getPMDPath();
                 if (pmdPath == null || pmdPath.trim().isEmpty()) {
                     JOptionPane.showMessageDialog(frame,
