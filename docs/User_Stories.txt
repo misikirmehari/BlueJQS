@@ -6,6 +6,5 @@ User Stories for “Java Program Analysis”, that is designed to offer a suite 
 4.	As a user, I want to be able to use source code analyzer tool, SpotBugs, to find bugs in my java programs.
 5.	As a user, I want to be able to choose separate access of each suite tool to verify my programs have high quality and correctness.
 6.	As a user, I want to be able to choose access to run all suite tools at the same time to verify my programs have high quality and correctness.
-7.      As a user, I want the source code to be consistently documented and easy to follow and understand.
-
+7.      As a maintainer of this product, I want the source code to be consistently documented using standard JavaDocs notation.
 
