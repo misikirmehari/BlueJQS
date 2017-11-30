@@ -11,6 +11,8 @@ public class MenuBuilder extends MenuGenerator {
     private final Frame frame;
     private String javaFileName;
     private final Preferences preferences;
+    private static final String PMD = "PMD";
+    private static final String CHECKSTYLE = "Checkstyle";
 
     public MenuBuilder(Preferences preferences) {
         this.frame = null;
@@ -77,7 +79,7 @@ public class MenuBuilder extends MenuGenerator {
             }
 
             // build tools list to display
-            String[] menuItemArray = {"PMD", "Pretend Tool"};
+            String[] menuItemArray = {PMD, CHECKSTYLE};
             StringBuilder menuItems = new StringBuilder();
             for (int i = 0; i < menuItemArray.length; i++) {
                 String row = "(" + (i+1) + ") " + menuItemArray[i] + "\n";
@@ -89,13 +91,7 @@ public class MenuBuilder extends MenuGenerator {
                     "BlueJQS", JOptionPane.QUESTION_MESSAGE, null, menuItemArray, menuItemArray[0]);
 
             // the pretend tool is there to test for multiple tools
-            if(toolChoice.trim().equals("Pretend Tool")){
-                JOptionPane.showMessageDialog(null, "Hello. You just clicked on the pretend tool. Thank you for testing our product.",
-                        "BlueJQS", JOptionPane.INFORMATION_MESSAGE);
-
-            }
-
-            else if (toolChoice.trim().equals("PMD")) {// PMD
+            if(toolChoice.trim().equals(PMD)){// PMD
                 String pmdPath = preferences.getPMDPath();
                 if (pmdPath == null || pmdPath.trim().isEmpty()) {
                     JOptionPane.showMessageDialog(frame,
@@ -113,10 +109,20 @@ public class MenuBuilder extends MenuGenerator {
                     command = preferences.getPMDPath() + "\\bin\\pmd.bat "
                             + preferences.getPMDOptions() + " -d " + javaFileName;
                 }
-                doMenuAction("PMD", command);
+                doMenuAction(PMD, command);
 
-            } else if (toolChoice.trim().equalsIgnoreCase("2")) {// Infer
-//                doMenuAction("Infer", "infer capture -- javac " + javaFileName);
+            } else if (toolChoice.trim().equals(CHECKSTYLE)) {// Checkstyle
+                String csPath = preferences.getPMDPath();
+                if (csPath == null || csPath.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(frame,
+                            "The path to Checkstyle jar is not configured.",
+                            "No Path to Checkstyle jar file", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String command = "java -jar " + preferences.getPMDPath() + "/checkstyle-8.4-all.jar -c /google_checks.xml " + javaFileName;
+
+                doMenuAction(CHECKSTYLE, command);
 
             } else {// Invalid choice, returns
                 JOptionPane.showMessageDialog(null,
