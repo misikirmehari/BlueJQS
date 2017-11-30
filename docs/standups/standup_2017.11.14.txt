@@ -1,0 +1,24 @@
+Hunter
+	-before: updated wiki & readme, looked at pmd license
+	-next: finalize deliverable, make alt readme with markdown
+	-blockers: n/a
+
+Erin
+	-before: verifying pmd on windows & kali linux
+	-next: continuing repackage of visualJ
+	-blockers: n/a
+
+Vicky
+	-before: was able to get pmd working
+	-next: dive in role and variables research to work with api
+	-blockers: prob & stats test thurs
+
+Maxwell
+	-before: worked on getting SpotBugs to work as a menu item
+	-next: continue work on SpotBugs
+	-blockers: n/a
+
+Misikir
+	-before: implemented checkstyle to work on command line
+	-next: resolving issues running simple extension locally
+	-blockers: n/a
