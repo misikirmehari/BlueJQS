@@ -37,6 +37,8 @@ public class MenuBuilder extends MenuGenerator {
         } catch (ProjectNotOpenException | PackageNotFoundException e) {
             e.printStackTrace();
         }
+
+
     }
 
     class SpotbugsAction extends AbstractAction {
@@ -109,7 +111,7 @@ public class MenuBuilder extends MenuGenerator {
                     command = preferences.getPMDPath() + "\\bin\\pmd.bat "
                             + preferences.getPMDOptions() + " -d " + javaFileName;
                 }
-                doMenuAction(PMD, command);
+                doMenuAction(PMD, command, false);
 
             } else if (toolChoice.trim().equals(CHECKSTYLE)) {// Checkstyle
                 String csPath = preferences.getPMDPath();
@@ -120,9 +122,9 @@ public class MenuBuilder extends MenuGenerator {
                     return;
                 }
 
-                String command = "java -jar " + preferences.getPMDPath() + "/checkstyle-8.4-all.jar -c /google_checks.xml " + javaFileName;
+                String command = "java -jar " + preferences.getPMDPath() + "/checkstyle-8.5-all.jar -c /google_checks.xml " + javaFileName;
 
-                doMenuAction(CHECKSTYLE, command);
+                doMenuAction(CHECKSTYLE, command, true);
 
             } else {// Invalid choice, returns
                 JOptionPane.showMessageDialog(null,
@@ -132,26 +134,23 @@ public class MenuBuilder extends MenuGenerator {
         }
     }
 
-    private void doMenuAction(String menuItemName, String command) {
+    private void doMenuAction(String menuItemName, String command, boolean checkstyle) {// TODO: 12/1/17 change boolean name
         try {
-            JOptionPane.showMessageDialog(frame, "Running " + menuItemName
-                    + " on selected Class (Click OK)");
-
             String output = runCommand(command);
-
-            JOptionPane.showMessageDialog(frame, "Class Checked");
-
 
             StringBuilder msg = new StringBuilder("Any problems found are displayed below:");
             msg.append(LINE_SEPARATOR);
             msg.append(output);
-            JOptionPane.showMessageDialog(frame, msg);
+            if (!checkstyle) {
+                JOptionPane.showMessageDialog(frame, msg);
+            } else {
+                createJScrollPane(CHECKSTYLE + " Results", msg.toString());
+            }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(frame, "Couldn't run " + menuItemName
                     + ": " + e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
         }
-        JOptionPane.showMessageDialog(frame, menuItemName + " run completed");
     }
 
     private String runCommand(String myCommand) throws IOException, InterruptedException {
@@ -180,5 +179,25 @@ public class MenuBuilder extends MenuGenerator {
         reader.start();
         p.waitFor();
         return output.toString().replaceAll("\\. ", ".\n");
+    }
+
+    private void createJScrollPane(String title, String text) {
+        JFrame frame = new JFrame(title);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
+        JTextArea textArea = new JTextArea(20,50);// TODO: 12/1/17 turn into list
+        textArea.setLayout(new BorderLayout());
+        textArea.setFont(new Font("Serif", Font.PLAIN, 16));
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setText(text);
+        textArea.setVisible(true);
+
+        JScrollPane jScrollPane = new JScrollPane(textArea);
+        frame.getContentPane().add(jScrollPane, BorderLayout.CENTER);
+
+        frame.setLayout(new FlowLayout());
+        frame.pack();
     }
 }
