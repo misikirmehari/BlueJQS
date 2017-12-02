@@ -11,20 +11,18 @@ public class MenuBuilder extends MenuGenerator {
     private final Frame frame;
     private String javaFileName;
     private final Preferences preferences;
+    private static int currentX;
+    private static int currentY;
+    private static final String SUITE_LIB_NAME = "BlueJQualitySuiteLibraries";
+    private static final String ALL = "ALL";
     private static final String PMD = "PMD";
+    private static final String PMD_DIRECTORY_NAME = "pmd-bin-5.8.1";
     private static final String CHECKSTYLE = "Checkstyle";
+    private static final String CHECKSTYLE_JAR_NAME = "checkstyle-8.5-all.jar";
 
     public MenuBuilder(Preferences preferences) {
         this.frame = null;
         this.preferences = preferences;
-    }
-
-    public JMenuItem getToolsMenuItem(BPackage bp) {
-        return new JMenuItem(new SpotbugsAction("Open Spotbugs"));
-    }
-
-    public void notifyPostToolsMenu(BPackage bp, JMenuItem jmi) {
-        System.out.println("Opening Spotbugs GUI...");
     }
 
     public JMenuItem getClassMenuItem(BClass aClass) {
@@ -37,42 +35,19 @@ public class MenuBuilder extends MenuGenerator {
         } catch (ProjectNotOpenException | PackageNotFoundException e) {
             e.printStackTrace();
         }
-
-
-    }
-
-    class SpotbugsAction extends AbstractAction {
-        public SpotbugsAction(String menuName) {
-            putValue(AbstractAction.NAME, menuName);
-        }
-
-        public void actionPerformed(ActionEvent anEvent) {
-
-            try {
-                JOptionPane.showMessageDialog(frame, "Opening Spotbugs...");
-                String myCommand = "java -jar /Users/maxwell/spotbugs-3.1.0/lib/spotbugs.jar temp.jar";
-                String output = runCommand(myCommand);
-
-                StringBuilder msg = new StringBuilder();
-                msg.append(LINE_SEPARATOR);
-                msg.append(output);
-                JOptionPane.showMessageDialog(frame, msg);
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(frame, "Couldn't run Spotbugs: " + e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
-            }
-            JOptionPane.showMessageDialog(frame, "Spotbugs run completed");
-        }
-
-
     }
 
     class MenuAction extends AbstractAction {
-        public MenuAction(String menuName) {
+        MenuAction(String menuName) {
             putValue(AbstractAction.NAME, menuName);
         }
 
         public void actionPerformed(ActionEvent anEvent) {
+            // init starting position of first JFrame
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            currentX = 0;
+            currentY = 0;
+
             // validate java file
             if (javaFileName == null || javaFileName.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(frame,
@@ -80,72 +55,43 @@ public class MenuBuilder extends MenuGenerator {
                 return;
             }
 
-            // build tools list to display
-            String[] menuItemArray = {PMD, CHECKSTYLE};
-            StringBuilder menuItems = new StringBuilder();
-            for (int i = 0; i < menuItemArray.length; i++) {
-                String row = "(" + (i+1) + ") " + menuItemArray[i] + "\n";
-                menuItems.append(row);
+            final String suiteLibPath = getSuiteLibPath();
+            if (suiteLibPath == null) {
+                return;
             }
 
+            // build tools list to display
+            String[] menuItemArray = {ALL, PMD, CHECKSTYLE};
+
             // user makes tool choice
-            String toolChoice = (String) JOptionPane.showInputDialog(null, "Which suite tool(s) would you like to use?",
+            String toolChoice = (String) JOptionPane.showInputDialog(null,
+                    "Which suite tool(s) would you like to use?",
                     "BlueJQS", JOptionPane.QUESTION_MESSAGE, null, menuItemArray, menuItemArray[0]);
 
-            // the pretend tool is there to test for multiple tools
-            if(toolChoice.trim().equals(PMD)){// PMD
-                String pmdPath = preferences.getPMDPath();
-                if (pmdPath == null || pmdPath.trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(frame,
-                            "The path to PMD Installation is not configured. "
-                                    + "Please select the path under \"Tools / Preferences / Extensions / PMD\".",
-                            "No Path to PMD Installation", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+            if (toolChoice.trim().equals(ALL)) {
+                runPMD(suiteLibPath);
+                runCheckstyle(suiteLibPath);
 
-                String command;
-                if (!SystemUtils.isWindows()) {// macOS & GNU/Linux
-                    command = preferences.getPMDPath() + "/bin/run.sh pmd "
-                            + preferences.getPMDOptions() + " -d " + javaFileName;
-                } else {
-                    command = preferences.getPMDPath() + "\\bin\\pmd.bat "
-                            + preferences.getPMDOptions() + " -d " + javaFileName;
-                }
-                doMenuAction(PMD, command, false);
+            } else if(toolChoice.trim().equals(PMD)){
+                runPMD(suiteLibPath);
 
-            } else if (toolChoice.trim().equals(CHECKSTYLE)) {// Checkstyle
-                String csPath = preferences.getPMDPath();
-                if (csPath == null || csPath.trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(frame,
-                            "The path to Checkstyle jar is not configured.",
-                            "No Path to Checkstyle jar file", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                String command = "java -jar " + preferences.getPMDPath() + "/checkstyle-8.5-all.jar -c /google_checks.xml " + javaFileName;
-
-                doMenuAction(CHECKSTYLE, command, true);
+            } else if (toolChoice.trim().equals(CHECKSTYLE)) {
+                runCheckstyle(suiteLibPath);
 
             } else {// Invalid choice, returns
-                JOptionPane.showMessageDialog(null,
-                        "Pick a number to indicate your choice.");
+                JOptionPane.showMessageDialog(null,"Pick a number to indicate your choice.");
                 return;
             }
         }
     }
 
-    private void doMenuAction(String menuItemName, String command, boolean checkstyle) {// TODO: 12/1/17 change boolean name
+    private void doMenuAction(String menuItemName, String command, boolean useCustomFrame) {
         try {
             String output = runCommand(command);
 
-            StringBuilder msg = new StringBuilder("Any problems found are displayed below:");
-            msg.append(LINE_SEPARATOR);
-            msg.append(output);
-            if (!checkstyle) {
-                JOptionPane.showMessageDialog(frame, msg);
-            } else {
-                createJScrollPane(CHECKSTYLE + " Results", msg.toString());
-            }
+            String msg = "Any problems found are displayed below:" + LINE_SEPARATOR + output;
+            createJScrollPane(menuItemName + " Results", msg);
+
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(frame, "Couldn't run " + menuItemName
@@ -181,9 +127,26 @@ public class MenuBuilder extends MenuGenerator {
         return output.toString().replaceAll("\\. ", ".\n");
     }
 
+    private String getSuiteLibPath() {
+        String suiteLibPath = preferences.getSuiteLibPath();
+        if (suiteLibPath == null || suiteLibPath.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(frame,
+                    "The path to suite lib that contains '" + PMD_DIRECTORY_NAME
+                            + "', '" + CHECKSTYLE_JAR_NAME + "' \nPlease select the path to the "
+                            + SUITE_LIB_NAME + " Directory.",
+                    "No Path to " + SUITE_LIB_NAME + " folder", JOptionPane.ERROR_MESSAGE);
+            suiteLibPath = null;
+        }
+        return suiteLibPath;
+    }
+
     private void createJScrollPane(String title, String text) {
-        JFrame frame = new JFrame(title);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame frame;
+        frame = new JFrame(title);
+        currentX += 25;
+        currentY += 25;
+        frame.setLocation(currentX, currentY);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
 
         JTextArea textArea = new JTextArea(20,50);// TODO: 12/1/17 turn into list
@@ -199,5 +162,23 @@ public class MenuBuilder extends MenuGenerator {
 
         frame.setLayout(new FlowLayout());
         frame.pack();
+    }
+
+    private void runPMD(String suiteLibPath) {
+        String command;
+        if (!SystemUtils.isWindows()) {// macOS & GNU/Linux
+            command = suiteLibPath + "/" + PMD_DIRECTORY_NAME + "/bin/run.sh pmd "
+                    + preferences.getPMDOptions() + " -d " + javaFileName;
+        } else {
+            command = suiteLibPath + "\\bin\\pmd.bat "
+                    + preferences.getPMDOptions() + " -d " + javaFileName;// TODO: 12/1/17 fix windows version
+        }
+        doMenuAction(PMD, command, false);
+    }
+
+    private void runCheckstyle(String suiteLibPath) {
+        String command = "java -jar " + suiteLibPath + "/" + CHECKSTYLE_JAR_NAME +  " -c "
+                + suiteLibPath +"/google_checks.xml " + javaFileName;
+        doMenuAction(CHECKSTYLE, command, true);
     }
 }

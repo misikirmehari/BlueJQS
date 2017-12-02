@@ -13,7 +13,7 @@ public class Preferences implements PreferenceGenerator {
     private final BlueJ bluej;
     private static final String PROPERTY_PMD_PATH = "PMD.Path";
     private static final String PROPERTY_PMD_OPTIONS = "PMD.Options";
-    private static final String PMD_OPTIONS_DEFAULT = "-format text -R java-basic,java-design -version 1.7 -language java";
+    private static final String PMD_OPTIONS_DEFAULT = "-format text -R java-basic,java-design -version 1.8 -language java";
 
     public Preferences(BlueJ bluej) {
         this.bluej = bluej;
@@ -71,6 +71,8 @@ public class Preferences implements PreferenceGenerator {
             int result = fileChooser.showDialog(panel, "Select");
             if (result == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
+                System.out.println("selectedFile.getPath()-> " + selectedFile.getPath());// TODO: 12/1/17 remove me
+                System.out.println("selectedFile.getAbsolutePath()-> " + selectedFile.getAbsolutePath());// TODO: 12/1/17 remove me
                 boolean valid = verifyPMDPath(selectedFile);
                 if (valid) {
                     pmdPath.setText(selectedFile.getAbsolutePath());
@@ -87,9 +89,11 @@ public class Preferences implements PreferenceGenerator {
     private boolean verifyPMDPath(File selectedFile) {
         File pathToExecutable;
         if (SystemUtils.isWindows()) {
-            pathToExecutable = new File(selectedFile, "bin/pmd.bat");
+            pathToExecutable = new File(selectedFile, "/pmd-bin-5.8.1/bin/pmd.bat");
         } else {
-            pathToExecutable = new File(selectedFile, "bin/run.sh");
+            System.out.println("selectedFile.getPath()-> "+ selectedFile.getPath());
+            System.out.println("pmdPath.getText()-> "+ pmdPath.getText());
+            pathToExecutable = new File(selectedFile, "/pmd-bin-5.8.1/bin/run.sh");
         }
         return pathToExecutable.exists();
     }
@@ -102,7 +106,7 @@ public class Preferences implements PreferenceGenerator {
     }
 
     public final void loadValues () {
-        pmdPath.setText(getPMDPath());
+        pmdPath.setText(getSuiteLibPath());
         pmdOptions.setText(getPMDOptions());
     }
 
@@ -110,7 +114,7 @@ public class Preferences implements PreferenceGenerator {
         return bluej.getExtensionPropertyString(PROPERTY_PMD_OPTIONS, PMD_OPTIONS_DEFAULT);
     }
 
-    public final String getPMDPath() {
+    public final String getSuiteLibPath() {
         return bluej.getExtensionPropertyString(PROPERTY_PMD_PATH, "");
     }
 }
