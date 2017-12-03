@@ -73,12 +73,12 @@ public class Preferences implements PreferenceGenerator {
                 File selectedFile = fileChooser.getSelectedFile();
                 System.out.println("selectedFile.getPath()-> " + selectedFile.getPath());// TODO: 12/1/17 remove me
                 System.out.println("selectedFile.getAbsolutePath()-> " + selectedFile.getAbsolutePath());// TODO: 12/1/17 remove me
-                boolean valid = verifyPMDPath(selectedFile);
+                boolean valid = verifySuiteLibPath(selectedFile);
                 if (valid) {
                     pmdPath.setText(selectedFile.getAbsolutePath());
                 } else {
                     JOptionPane.showMessageDialog(panel, "The selected path " + selectedFile + " doesn't seem to be"
-                            + " a PMD installation. E.g. the file bin/pmd.bat or bin/run.sh is missing.");
+                            + " a PMD installation. E.g. the file bin/pmd.bat or bin/run.sh is missing.");// TODO: 12/3/17 cleanup- make generic
                 }
             }
         });
@@ -86,7 +86,7 @@ public class Preferences implements PreferenceGenerator {
         resetToDefaultButton.addActionListener(e -> pmdOptions.setText(PMD_OPTIONS_DEFAULT));
     }
 
-    private boolean verifyPMDPath(File selectedFile) {
+    private boolean verifySuiteLibPath(File selectedFile) {
         File pathToExecutable;
         if (SystemUtils.isWindows()) {
             pathToExecutable = new File(selectedFile, "/pmd-bin-5.8.1/bin/pmd.bat");

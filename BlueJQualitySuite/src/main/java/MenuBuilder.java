@@ -44,7 +44,6 @@ public class MenuBuilder extends MenuGenerator {
 
         public void actionPerformed(ActionEvent anEvent) {
             // init starting position of first JFrame
-            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
             currentX = 0;
             currentY = 0;
 
@@ -78,14 +77,11 @@ public class MenuBuilder extends MenuGenerator {
             } else if (toolChoice.trim().equals(CHECKSTYLE)) {
                 runCheckstyle(suiteLibPath);
 
-            } else {// Invalid choice, returns
-                JOptionPane.showMessageDialog(null,"Pick a number to indicate your choice.");
-                return;
             }
         }
     }
 
-    private void doMenuAction(String menuItemName, String command, boolean useCustomFrame) {
+    private void doMenuAction(String menuItemName, String command) {
         try {
             String output = runCommand(command);
 
@@ -170,15 +166,15 @@ public class MenuBuilder extends MenuGenerator {
             command = suiteLibPath + "/" + PMD_DIRECTORY_NAME + "/bin/run.sh pmd "
                     + preferences.getPMDOptions() + " -d " + javaFileName;
         } else {
-            command = suiteLibPath + "\\bin\\pmd.bat "
+            command = suiteLibPath + "/" + PMD_DIRECTORY_NAME  + "\\bin\\pmd.bat "
                     + preferences.getPMDOptions() + " -d " + javaFileName;// TODO: 12/1/17 fix windows version
         }
-        doMenuAction(PMD, command, false);
+        doMenuAction(PMD, command);
     }
 
     private void runCheckstyle(String suiteLibPath) {
         String command = "java -jar " + suiteLibPath + "/" + CHECKSTYLE_JAR_NAME +  " -c "
                 + suiteLibPath +"/google_checks.xml " + javaFileName;
-        doMenuAction(CHECKSTYLE, command, true);
+        doMenuAction(CHECKSTYLE, command);
     }
 }
