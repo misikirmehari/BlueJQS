@@ -63,6 +63,9 @@ public class MenuBuilder extends MenuGenerator {
             String[] menuItemArray = {ALL, PMD, CHECKSTYLE};
 
             // user makes tool choice
+            // reference: http://www.java2s.com/Code/Java/Swing-JFC/AnexampleofusingtheJOptionPanewithacustomlistofoptionsinan.htm
+            // For maintainers, this function call requires you to give a parent compnent, message, title,
+            // the message type, the icon is being used, the list being used, and the initial selection in that order.
             String toolChoice = (String) JOptionPane.showInputDialog(null,
                     "Which suite tool(s) would you like to use?",
                     "BlueJQS", JOptionPane.QUESTION_MESSAGE, null, menuItemArray, menuItemArray[0]);
