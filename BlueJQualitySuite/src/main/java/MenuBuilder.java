@@ -86,9 +86,10 @@ public class MenuBuilder extends MenuGenerator {
 
     private void doMenuAction(String menuItemName, String command) {
         try {
-            String output = runCommand(command);
+            String output = runCommand(command).replaceAll("\\.\n\\[", ". [")
+                    .replaceAll("\n", "\n\n");
 
-            String msg = "Any problems found are displayed below:" + LINE_SEPARATOR + output;
+            String msg = "Any problems found are displayed below:\n" + LINE_SEPARATOR + output;
             createJScrollPane(menuItemName + " Results", msg);
 
         } catch (IOException | InterruptedException e) {
@@ -148,7 +149,7 @@ public class MenuBuilder extends MenuGenerator {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
 
-        JTextArea textArea = new JTextArea(20,50);// TODO: 12/1/17 turn into list
+        JTextArea textArea = new JTextArea(30,90);// TODO: 12/1/17 turn into list
         textArea.setLayout(new BorderLayout());
         textArea.setFont(new Font("Serif", Font.PLAIN, 16));
         textArea.setLineWrap(true);
