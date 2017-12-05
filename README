@@ -45,7 +45,7 @@ You should be able to run the BlueJQS now.
 ===============================================================================================
 To use the Quality Analysis Suite for BlueJ, open the main class window. Right click on a class
 object and at the bottom of the menu - click on "Open Quality Suite Tools". You will then see a
-drop down menu that promts the user to choose one of the following three options: ALL, PMD, or
+drop down menu that prompts thei user to choose one of the following three options: ALL, PMD, or
 Checkstyle.  The results from the test(s) are then displayed to the user in a dialog box.
 
 - LICENSING -
