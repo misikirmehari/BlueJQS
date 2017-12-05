@@ -33,7 +33,7 @@ public class Preferences implements PreferenceGenerator {
         c.anchor = GridBagConstraints.EAST;
         c.weightx = 0.0;
         c.fill = GridBagConstraints.NONE;
-        panel.add(new JLabel("Path to PMD installation:"), c);
+        panel.add(new JLabel("BlueJQS Library Path:"), c);
 
         c.anchor = GridBagConstraints.CENTER;
         c.weightx = 1.0;

@@ -58,7 +58,7 @@ public class BlueJQualitySuite extends Extension implements PackageListener {
      * Returns the user-visible name of this extension
      */
     public String  getName () {
-        return ("PMD");
+        return ("BlueJQS");
     }
 
     public void terminate() {

@@ -170,7 +170,7 @@ public class MenuBuilder extends MenuGenerator {
             command = suiteLibPath + "/" + PMD_DIRECTORY_NAME + "/bin/run.sh pmd "
                     + preferences.getPMDOptions() + " -d " + javaFileName;
         } else {
-            command = suiteLibPath + "/" + PMD_DIRECTORY_NAME  + "\\bin\\pmd.bat "
+            command = suiteLibPath + "\\" + PMD_DIRECTORY_NAME  + "\\bin\\pmd.bat "
                     + preferences.getPMDOptions() + " -d " + javaFileName;// TODO: 12/1/17 fix windows version
         }
         doMenuAction(PMD, command);
