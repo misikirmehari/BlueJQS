@@ -4,59 +4,49 @@
                             |                                      |
               	            ++++++++++++++++++++++++++++++++++++++++
 		
-VERSION: 1.0.1
-DATE: 11/14/2017
+CURRENT VERSION: 1.1.0
+DATE: 12/04/2017
 
 AUTHORS: Maxwell Stark, Hunter Hobbs, Erin Gurnett, Vicky Lym, Misikir Mehari, Haley Ittner
-Under the consultation of Dr. Jody Paul,Metropolitan State University of Denver, 2017.
+Under the consultation of Dr. Jody Paul, Metropolitan State University of Denver, 2017.
+
+- CURRENT RELEASE -
+=============================================================================================
+
+Current product release can be found in DEW/tags/
+URL: https://gouda.msudenver.edu/cs4250/JavaProgramAnalysis/DEW/tags/
+
+=============================================================================================
+
+*** CURRENT KNOWN ISSUES ***
+(Our team is working diligently to fix the following issues)
+- Current version ONLY works on UNIX/Linux systems.
+- Any projects that the user would like to run BlueJQS on MUST be located in a directory where
+   the path to that directory DOES NOT include spaces. (i.e. ~/User/My Project/ would
+   cause BlueJQS to crash)
+- The location of the BlueJQS folder MUST be placed where there are no spaces in the file path
+   (i.e. ~/User/My Stuff/BlueJQS/ would cause BlueJQS to crash)
 
 
-This directory contains the executable jar file for the Quality Analysis Suite for BlueJ 4.1.1
-as well as all relevant source code for future maintenance and enhancements. Currently the 
-extension provides a quality suite framework that includes PMD to perform static code analysis. 
-The instructions for installing and running the extension can be found below. Enjoy!
+- INSTALLATION -
+===============================================================================================
+Download BlueJQS.zip found in release-1.1.0/ and unzip. * Make sure unzip into a directory 
+where there are NO SPACES in the file path to that directory. (remember this location)
 
+Move the BlueJQualitySuite.jar file from /BlueJQS/ to the BlueJ extensions folder. This is 
+normally located here: /BlueJ 4.1.1/BlueJ.app/Contents/Resources/Java/extensions/
+
+Open BlueJ and under the Preferences menu you will find Path to PMD installation. This is 
+where you enter the path to the BlueJQS/ folder. 
+
+You should be able to run the BlueJQS now.
 
 - USE -
 ===============================================================================================
 To use the Quality Analysis Suite for BlueJ, open the main class window. Right click on a class
 object and at the bottom of the menu - click on "Open Quality Suite Tools". You will then see a
-dialog box prompting to choose which tool you would like to run (currently there is only one 
-option, 1 - PMD).  A dialog box will then pop up to tell you that the class was or wasn't check
-successfully, followed by another dialog box that will list all the errors that PMD found for 
-that class. To run a different class, follow the same steps.
-
-
-- INSTALLATION -
-===============================================================================================
-Currently the extension requires that you must install PMD on your operating machine. You can
-download PMD here: https://sourceforge.net/projects/pmd/files/pmd/ 
-After you have downloaded, extract the zip file somewhere on your computer that you can easily
-find. On a Linux/Unix machine, it's suggested to install PMD under ~/pmd-bin-5.3.2/ and for 
-Windows it's best to install in a root directory to avoid spaces in the directory path,
-(ie: Program Files/) or the extension might not work properly; the installation path might
-be c:\pmd-bin-5.3.2\ for a Windows operating machine.
-
-After PMD is installed, now install the extension by downloading the BlueJQualitySuite.jar file
-found @ https://gouda.msudenver.edu/cs4250/JavaProgramAnalysis/DEW/trunk/. The jar file works
-for Windows, Linux and Mac. 
-
-To install under Linux, assuming you have installed BlueJ in your home directory, copy the 
-BlueJQualitySuite.jar file to ~/bluej/lib/extensions directory, the restart blueJ.
-
-To install under Windows, assuming you have installed BlueJ into the normal location, copy the 
-BlueJQualitySuite.jar file to C:\Program Files\BlueJ\lib\extensions.
-
-To install under Mac, navigate the the folder where BlueJ is installed, right/control click on
-the BlueJ icon and click "Show Package Content". 
-Then navigate to /Contents/Resources/Java/extensions/ and copy the BlueJQualitySuite.jar file
-in the extensions folder. Restart BlueJ.
-
-After the jar file is copied into the extensions folder and BlueJ is opened, go to 
-"BlueJ/Preference/Extensions". Select or enter the "Path to PMD installation" that you have
-remembered from the previous step. You can also fine-tune the "PMD Options". Reference the 
-PMD documentation for available rulesets.
-
+drop down menu that promts the user to choose one of the following three options: ALL, PMD, or
+Checkstyle.  The results from the test(s) are then displayed to the user in a dialog box.
 
 - LICENSING -
 ===============================================================================================
