@@ -1,12 +1,21 @@
 import bluej.extensions.*;
 import bluej.extensions.event.*;
 
-/*
- * This is the starting point of a BlueJ Extension
+/* Defines the extension of the suite that will allow users to use multiple BlueJ extensions
+ * to improve the quality of their code.
+ *
+ * @author Erin Gurnett
+ * @author Haley Ittner
+ * @author Hunter Hobbs
+ * @author Maxwell Stark
+ * @author Misikir Mehari
+ * @author Vicky Lym
+ *
+ * @version 1.1.0
  */
 public class BlueJQualitySuite extends Extension implements PackageListener {
     /*
-     * When this method is called, the extension may start its work.
+     * Starts the BlueJQualitySuite.
      */
     public void startup (BlueJ bluej) {
         // Register a "preferences" panel generator
@@ -24,8 +33,9 @@ public class BlueJQualitySuite extends Extension implements PackageListener {
      * A package has been opened. Print the name of the project it is part of.
      * System.out is redirected to the BlueJ debug log file.
      * The location of this file is given in the Help/About BlueJ dialog box.
+     * @param ev The package event that occured, ie a package has been open.
      */
-    public void packageOpened ( PackageEvent ev ) {
+    public void packageOpened (PackageEvent ev) {
         try {
             System.out.println ("Project " + ev.getPackage().getProject().getName() + " opened.");
         } catch (ExtensionException e) {
@@ -35,6 +45,7 @@ public class BlueJQualitySuite extends Extension implements PackageListener {
 
     /*
      * A package is closing.
+     * @param ev The package event that occured, ie a package closing.
      */
     public void packageClosing ( PackageEvent ev ) {
     }
@@ -42,6 +53,7 @@ public class BlueJQualitySuite extends Extension implements PackageListener {
     /*
      * This method must decide if this Extension is compatible with the
      * current release of the BlueJ Extensions API
+     * @return boolean If the extension is compatible with the BlueJ Extensions API.
      */
     public boolean isCompatible () {
         return true;
@@ -49,6 +61,7 @@ public class BlueJQualitySuite extends Extension implements PackageListener {
 
     /*
      * Returns the version number of this extension
+     * @return String the version number of the extension.
      */
     public String  getVersion () {
         return ("PMD 5.8.1");
@@ -56,15 +69,22 @@ public class BlueJQualitySuite extends Extension implements PackageListener {
 
     /*
      * Returns the user-visible name of this extension
+     * @return String The name of the extension being used.
      */
     public String  getName () {
         return ("BlueJQS");
     }
 
+    /*
+     * Lets the user know the extension terminated.
+     */
     public void terminate() {
         System.out.println ("PMD terminates");
     }
 
+    /* Get the description of the extension.
+     * @return String The description of the extension being used.
+     */
     public String getDescription () {
         return ("Bluej extension for PMD");
     }
