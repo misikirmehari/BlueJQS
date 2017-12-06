@@ -56,7 +56,7 @@ public class BlueJQualitySuite extends Extension implements PackageListener {
     /**
      * This method must decide if this Extension is compatible with the
      * current release of the BlueJ Extensions API
-     * @return boolean If the extension is compatible with the BlueJ Extensions API
+     * @return If the extension is compatible with the BlueJ Extensions API
      */
     public boolean isCompatible () {
         return true;
@@ -64,7 +64,7 @@ public class BlueJQualitySuite extends Extension implements PackageListener {
 
     /**
      * Returns the version number of this extension
-     * @return String the version number of the extension
+     * @return the version number of the extension
      */
     public String  getVersion () {
         return (SUITE_NAME + " " + VERSION);
@@ -72,7 +72,7 @@ public class BlueJQualitySuite extends Extension implements PackageListener {
 
     /**
      * Returns the user-visible name of this extension
-     * @return String The name of the extension being used
+     * @return The name of the extension being used
      */
     public String  getName () {
         return (SUITE_NAME);
@@ -87,7 +87,7 @@ public class BlueJQualitySuite extends Extension implements PackageListener {
 
     /**
      * Get the description of the extension.
-     * @return String The description of the extension being used
+     * @return The description of the extension being used
      */
     public String getDescription () {
         return ("BlueJ extension for " + SUITE_NAME);

@@ -57,7 +57,7 @@ public class MenuBuilder extends MenuGenerator {
     /**
      * Gets menu item of a given class.
      * @param aClass the class of the item to put on the menu
-     * @return JMenuItem The menu item to put in the suite menu
+     * @return The menu item to put in the suite menu
      */
     public JMenuItem getClassMenuItem(BClass aClass) {
         return new JMenuItem(new MenuAction("Open Quality Suite Tools"));
@@ -159,7 +159,7 @@ public class MenuBuilder extends MenuGenerator {
     /**
      * Starts the extension with the given command.
      * @param myCommand the command given that starts the process
-     * @return String The output of the process started
+     * @return The output of the process started
      */
     private String runCommand(String myCommand) throws IOException, InterruptedException {
         System.out.println("Running command: '" + myCommand + "'");
@@ -191,7 +191,7 @@ public class MenuBuilder extends MenuGenerator {
 
     /**
      * Gets the suite's library path.
-     * @return String the path to the suite's library
+     * @return the path to the suite's library
      */
     private String getSuiteLibPath() {
         String suiteLibPath = preferences.getSuiteLibPath();
