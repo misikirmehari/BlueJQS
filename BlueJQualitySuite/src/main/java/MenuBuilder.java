@@ -6,7 +6,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-/* Defines the menu for the BlueJQualitySuite.
+/**
+ * Defines the menu for the BlueJQualitySuite.
  *
  * @author Erin Gurnett
  * @author Haley Ittner
@@ -19,7 +20,7 @@ import java.io.InputStreamReader;
  */
 
 public class MenuBuilder extends MenuGenerator {
-    // The line seperator character.
+    // The line separator character.
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
     // The Frame of the menu being used.
     private final Frame frame;
@@ -37,33 +38,36 @@ public class MenuBuilder extends MenuGenerator {
     private static final String ALL = "ALL";
     // The string PMD.
     private static final String PMD = "PMD";
-    // The string of the PMD dicrectory.
+    // The string of the PMD directory.
     private static final String PMD_DIRECTORY_NAME = "pmd-bin-5.8.1";
     // The string CheckStyle.
     private static final String CHECKSTYLE = "Checkstyle";
     // The string of the checkstyle jar name.
     private static final String CHECKSTYLE_JAR_NAME = "checkstyle-8.5-all.jar";
 
-    /* Builds the menu from the preferences given.
-     * @param preferences The preferences for the extension being used.
-     * @return MenuBuilder The menu builder that builds the menu for the suite.
+    /**
+     * Builds the menu from the preferences given.
+     * @param preferences The preferences for the extension being used
      */
     public MenuBuilder(Preferences preferences) {
         this.frame = null;
         this.preferences = preferences;
     }
 
-    /* Gets menu item of a given class.
-     * @param aClass the class of the item to put on the menu.
-     * @return JMenuItem The menu item to put in the suite menu.
+    /**
+     * Gets menu item of a given class.
+     * @param aClass the class of the item to put on the menu
+     * @return JMenuItem The menu item to put in the suite menu
      */
     public JMenuItem getClassMenuItem(BClass aClass) {
         return new JMenuItem(new MenuAction("Open Quality Suite Tools"));
     }
 
-    /* Gets the java file of the project the extension is running on.
-     * @param bc The class of the project.
-     * @param jmi The menu item being used.
+    /**
+     * Called when a class file in BlueJ is clicked. Gets the java file of the
+     * project the extension is running on.
+     * @param bc The class of the project
+     * @param jmi The menu item being used
      */
     public void notifyPostClassMenu(BClass bc, JMenuItem jmi) {
         try {
@@ -73,8 +77,8 @@ public class MenuBuilder extends MenuGenerator {
         }
     }
 
-    /*
-     * Defines the aaction to take when a menu item is selected.
+    /**
+     * Defines the action to take when a menu item is selected.
      */
     class MenuAction extends AbstractAction {
         // Give the menu a name.
@@ -82,8 +86,9 @@ public class MenuBuilder extends MenuGenerator {
             putValue(AbstractAction.NAME, menuName);
         }
 
-        /* Starts the chosen extension.
-         * @param anEvent The event that occured to start the extension.
+        /**
+         * Starts the chosen extension.
+         * @param anEvent The event that occurred to start the extension
          */
         public void actionPerformed(ActionEvent anEvent) {
             // init starting position of first JFrame
@@ -107,29 +112,34 @@ public class MenuBuilder extends MenuGenerator {
 
             // user makes tool choice
             // reference: http://www.java2s.com/Code/Java/Swing-JFC/AnexampleofusingtheJOptionPanewithacustomlistofoptionsinan.htm
-            // For maintainers, this function call requires you to give a parent compnent, message, title,
+            // For maintainers, this function call requires you to give a parent component, message, title,
             // the message type, the icon is being used, the list being used, and the initial selection in that order.
             String toolChoice = (String) JOptionPane.showInputDialog(null,
                     "Which suite tool(s) would you like to use?",
                     "BlueJQS", JOptionPane.QUESTION_MESSAGE, null, menuItemArray, menuItemArray[0]);
 
-            if (toolChoice.trim().equals(ALL)) {
-                runPMD(suiteLibPath);
-                runCheckstyle(suiteLibPath);
+            switch (toolChoice.trim()) {
+                case ALL:
+                    runPMD(suiteLibPath);
+                    runCheckstyle(suiteLibPath);
 
-            } else if(toolChoice.trim().equals(PMD)){
-                runPMD(suiteLibPath);
+                    break;
+                case PMD:
+                    runPMD(suiteLibPath);
 
-            } else if (toolChoice.trim().equals(CHECKSTYLE)) {
-                runCheckstyle(suiteLibPath);
+                    break;
+                case CHECKSTYLE:
+                    runCheckstyle(suiteLibPath);
 
+                    break;
             }
         }
     }
 
-    /* Starts the chosen extension with the given command and prints the results.
-     * @param menuItemName the name of the extension chosen.
-     * @param command The command to perform.
+    /**
+     * Starts the chosen extension with the given command and prints the results.
+     * @param menuItemName the name of the extension chosen
+     * @param command The command to perform
      */
     private void doMenuAction(String menuItemName, String command) {
         try {
@@ -146,9 +156,10 @@ public class MenuBuilder extends MenuGenerator {
         }
     }
 
-    /* Starts the extension with the given command.
-     * @param myCommand the command given that starts the process.
-     * @return String The output of the process started.
+    /**
+     * Starts the extension with the given command.
+     * @param myCommand the command given that starts the process
+     * @return String The output of the process started
      */
     private String runCommand(String myCommand) throws IOException, InterruptedException {
         System.out.println("Running command: '" + myCommand + "'");
@@ -178,8 +189,9 @@ public class MenuBuilder extends MenuGenerator {
         return output.toString().replaceAll("\\. ", ".\n");
     }
 
-    /* Gets the suite's library path.
-     * @return String the path to the suite's library.
+    /**
+     * Gets the suite's library path.
+     * @return String the path to the suite's library
      */
     private String getSuiteLibPath() {
         String suiteLibPath = preferences.getSuiteLibPath();
@@ -194,9 +206,10 @@ public class MenuBuilder extends MenuGenerator {
         return suiteLibPath;
     }
 
-    /* Creates the scroll panel inside the dialog pop-up.
-     * @param title The title of the extension ran.
-     * @param text The text generated from the extension.
+    /**
+     * Creates the scroll panel inside the dialog pop-up.
+     * @param title The title of the extension ran
+     * @param text The text generated from the extension
      */
     private void createJScrollPane(String title, String text) {
         JFrame frame;
@@ -207,7 +220,7 @@ public class MenuBuilder extends MenuGenerator {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
 
-        JTextArea textArea = new JTextArea(30,90);// TODO: 12/1/17 turn into list
+        JTextArea textArea = new JTextArea(30,90);
         textArea.setLayout(new BorderLayout());
         textArea.setFont(new Font("Serif", Font.PLAIN, 16));
         textArea.setLineWrap(true);
@@ -222,8 +235,9 @@ public class MenuBuilder extends MenuGenerator {
         frame.pack();
     }
 
-    /* Runs the PMD extension
-     * @param suiteLibPath the path to the suite library.
+    /**
+     * Runs the PMD extension
+     * @param suiteLibPath the path to the suite library
      */
     private void runPMD(String suiteLibPath) {
         String command;
@@ -232,12 +246,13 @@ public class MenuBuilder extends MenuGenerator {
                     + preferences.getPMDOptions() + " -d " + javaFileName;
         } else {
             command = suiteLibPath + "\\" + PMD_DIRECTORY_NAME  + "\\bin\\pmd.bat "
-                    + preferences.getPMDOptions() + " -d " + javaFileName;// TODO: 12/1/17 fix windows version
+                    + preferences.getPMDOptions() + " -d " + javaFileName;
         }
         doMenuAction(PMD, command);
     }
 
-    /* Runs the Checkstyle extension.
+    /**
+     * Runs the Checkstyle extension.
      * @param suiteLibPath The path to the suite library.
      */
     private void runCheckstyle(String suiteLibPath) {

@@ -1,7 +1,7 @@
 import bluej.extensions.*;
 import bluej.extensions.event.*;
 
-/* Defines the extension of the suite that will allow users to use multiple BlueJ extensions
+/** Defines the extension of the suite that will allow users to use multiple BlueJ extensions
  * to improve the quality of their code.
  *
  * @author Erin Gurnett
@@ -14,7 +14,10 @@ import bluej.extensions.event.*;
  * @version 1.1.0
  */
 public class BlueJQualitySuite extends Extension implements PackageListener {
-    /*
+
+    private static final String VERSION = "1.1.0";
+    static final String SUITE_NAME = "BlueJQS";
+    /**
      * Starts the BlueJQualitySuite.
      */
     public void startup (BlueJ bluej) {
@@ -29,11 +32,11 @@ public class BlueJQualitySuite extends Extension implements PackageListener {
         bluej.addPackageListener(this);
     }
 
-    /*
+    /**
      * A package has been opened. Print the name of the project it is part of.
      * System.out is redirected to the BlueJ debug log file.
      * The location of this file is given in the Help/About BlueJ dialog box.
-     * @param ev The package event that occured, ie a package has been open.
+     * @param ev The package event that occurred, ie a package has been open
      */
     public void packageOpened (PackageEvent ev) {
         try {
@@ -43,50 +46,51 @@ public class BlueJQualitySuite extends Extension implements PackageListener {
         }
     }
 
-    /*
+    /**
      * A package is closing.
-     * @param ev The package event that occured, ie a package closing.
+     * @param ev The package event that occurred, ie a package closing
      */
     public void packageClosing ( PackageEvent ev ) {
     }
 
-    /*
+    /**
      * This method must decide if this Extension is compatible with the
      * current release of the BlueJ Extensions API
-     * @return boolean If the extension is compatible with the BlueJ Extensions API.
+     * @return boolean If the extension is compatible with the BlueJ Extensions API
      */
     public boolean isCompatible () {
         return true;
     }
 
-    /*
+    /**
      * Returns the version number of this extension
-     * @return String the version number of the extension.
+     * @return String the version number of the extension
      */
     public String  getVersion () {
-        return ("PMD 5.8.1");
+        return (SUITE_NAME + " " + VERSION);
     }
 
-    /*
+    /**
      * Returns the user-visible name of this extension
-     * @return String The name of the extension being used.
+     * @return String The name of the extension being used
      */
     public String  getName () {
-        return ("BlueJQS");
+        return (SUITE_NAME);
     }
 
-    /*
+    /**
      * Lets the user know the extension terminated.
      */
     public void terminate() {
-        System.out.println ("PMD terminates");
+        System.out.println (SUITE_NAME + " terminates");
     }
 
-    /* Get the description of the extension.
-     * @return String The description of the extension being used.
+    /**
+     * Get the description of the extension.
+     * @return String The description of the extension being used
      */
     public String getDescription () {
-        return ("Bluej extension for PMD");
+        return ("BlueJ extension for " + SUITE_NAME);
     }
 }
 

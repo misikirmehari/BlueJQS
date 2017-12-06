@@ -15,8 +15,9 @@ import java.util.Locale;
 
 public class SystemUtils {
 
-    /* Checks if the operating system the extension is being ran on is Windows.
-     * @return boolean Returns true if the operating system being ran on is Windows.
+    /**
+     * Checks if the operating system the extension is being ran on is Windows.
+     * @return boolean Returns true if the operating system being ran on is Windows
      */
     public static boolean isWindows() {
         String osname = System.getProperty("os.name");

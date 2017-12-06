@@ -5,7 +5,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
-/* Defines the preferences of the extensions being used,
+/**
+ *  Defines the preferences of the extensions being used,
  * like the location of the extension.
  *
  * @author Erin Gurnett
@@ -41,7 +42,7 @@ public class Preferences implements PreferenceGenerator {
         loadValues(); // Load the default/initial values
     }
 
-    /*
+    /**
      * Creates the preference panel in a dialog box.
      */
     private void renderPanel() {
@@ -56,7 +57,7 @@ public class Preferences implements PreferenceGenerator {
         c.anchor = GridBagConstraints.EAST;
         c.weightx = 0.0;
         c.fill = GridBagConstraints.NONE;
-        panel.add(new JLabel("BlueJQS Library Path:"), c);
+        panel.add(new JLabel(BlueJQualitySuite.SUITE_NAME + " Library Path:"), c);
 
         c.anchor = GridBagConstraints.CENTER;
         c.weightx = 1.0;
@@ -94,14 +95,12 @@ public class Preferences implements PreferenceGenerator {
             int result = fileChooser.showDialog(panel, "Select");
             if (result == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
-                System.out.println("selectedFile.getPath()-> " + selectedFile.getPath());// TODO: 12/1/17 remove me
-                System.out.println("selectedFile.getAbsolutePath()-> " + selectedFile.getAbsolutePath());// TODO: 12/1/17 remove me
                 boolean valid = verifySuiteLibPath(selectedFile);
                 if (valid) {
                     pmdPath.setText(selectedFile.getAbsolutePath());
                 } else {
                     JOptionPane.showMessageDialog(panel, "The selected path " + selectedFile + " doesn't seem to be"
-                            + " a PMD installation. E.g. the file bin/pmd.bat or bin/run.sh is missing.");// TODO: 12/3/17 cleanup- make generic
+                            + " a PMD installation. E.g. the file bin/pmd.bat or bin/run.sh is missing.");
                 }
             }
         });
@@ -109,28 +108,28 @@ public class Preferences implements PreferenceGenerator {
         resetToDefaultButton.addActionListener(e -> pmdOptions.setText(PMD_OPTIONS_DEFAULT));
     }
 
-    /* Verifies the path for the suite is correct.
-     * @param selectedFile the file that contains the suite.
-     * @return boolean Returns true if the file is correct.
+    /**
+     * Verifies the path for the suite is correct.
+     * @param selectedFile the file that contains the suite
+     * @return boolean Returns true if the file is correct
      */
     private boolean verifySuiteLibPath(File selectedFile) {
         File pathToExecutable;
         if (SystemUtils.isWindows()) {
             pathToExecutable = new File(selectedFile, "/pmd-bin-5.8.1/bin/pmd.bat");
         } else {
-            System.out.println("selectedFile.getPath()-> "+ selectedFile.getPath());
-            System.out.println("pmdPath.getText()-> "+ pmdPath.getText());
             pathToExecutable = new File(selectedFile, "/pmd-bin-5.8.1/bin/run.sh");
         }
         return pathToExecutable.exists();
     }
 
-    /* Gets the panel being used.
-     * @return JPanel The panel being used for preferences.
+    /**
+     * Gets the panel being used.
+     * @return JPanel The panel being used for preferences
      */
     public JPanel getPanel ()  { return panel; }
 
-    /*
+    /**
      * Saves the PMD path and options to the extension.
      */
     public void saveValues () {
@@ -138,23 +137,25 @@ public class Preferences implements PreferenceGenerator {
         bluej.setExtensionPropertyString(PROPERTY_PMD_OPTIONS, pmdOptions.getText());
     }
 
-    /*
-     * Loads the PMD path and options.
+    /**
+     * Loads the path and options.
      */
     public final void loadValues () {
         pmdPath.setText(getSuiteLibPath());
         pmdOptions.setText(getPMDOptions());
     }
 
-    /* Gets the PMD options chosen.
-     * @return String The options of PMD.
+    /**
+     * Gets the PMD options chosen.
+     * @return String The options of PMD
      */
     public final String getPMDOptions() {
         return bluej.getExtensionPropertyString(PROPERTY_PMD_OPTIONS, PMD_OPTIONS_DEFAULT);
     }
 
-    /* Gets the path to the suite.
-     * @return String The path to the suite.
+    /**
+     * Gets the path to the suite.
+     * @return String The path to the suite
      */
     public final String getSuiteLibPath() {
         return bluej.getExtensionPropertyString(PROPERTY_PMD_PATH, "");
