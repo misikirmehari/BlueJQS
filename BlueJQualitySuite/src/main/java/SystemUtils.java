@@ -1,4 +1,7 @@
-/* Defines the OS being used.
+import java.util.Locale;
+
+/**
+ * Defines the OS being used.
  * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
  *
  * @author Erin Gurnett
@@ -10,8 +13,6 @@
  *
  * @version 1.1.0
  */
-
-import java.util.Locale;
 
 public class SystemUtils {
 
