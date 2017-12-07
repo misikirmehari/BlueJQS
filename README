@@ -122,10 +122,6 @@
   
     mvn javadoc:javadoc
 
- To generate JavaDoc including private methods and attributes, run the following command:
-
-    mvn javadoc:javadoc -Dshow=private
-
 
 # DEPLOYMENT
 ------------
