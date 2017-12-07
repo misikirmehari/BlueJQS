@@ -1,5 +1,0 @@
-DEW: Vision Statement
-
-Objective: Provide BlueJ users the ability to analyze source code using a suite of standard tools.
-
-Our product supports novice Java programmers in forming a foundation of high-quality code practices and industry standards. Students can use our product in conjunction with BlueJ to assess the quality of their code. Our product incorporates a collection of existing tools used to identify potential weaknesses in source code (for example, bugs, non-adherence to conventions, poor test coverage, etc.) via both static analysis, which evaluates the source code itself, and dynamic analysis, which evaluates the behavior of the code during run-time.
