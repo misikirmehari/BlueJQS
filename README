@@ -109,8 +109,8 @@
 # BUILD
 -------
 
- This software uses maven as a build environment. To build the project from sources, 
- maven must be installed on your machine.
+ This software uses Maven as a build environment. To build the project from sources, 
+ Maven must be installed on your machine.
 
  To build project from source code - from the command line, navigate to the pom.xml file 
  that can be found in the release-1.1.1/BlueJQualitySuite/ and run:
