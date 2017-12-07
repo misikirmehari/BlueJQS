@@ -16,8 +16,8 @@
 # ABOUT / SYNOPSIS
 ------------------
 
- BlueJQS is an extension for BlueJ  that provides users the ability to analyze source code
- using a suite of standard tools.
+ BlueJQS is an extension for BlueJ v4.1.1 that provides users the ability to analyze 
+ source code using a suite of standard tools.
 
  This software is intended to support amateur Java programmers form a foundation of high-
  quality code practices and industry standards. Students can use our product in conjunctio
@@ -56,11 +56,11 @@
 
 # INSTALLATION
 --------------
-
+ 
  The current software release can be found here:
 
     https://gouda.msudenver.edu/cs4250/JavaProgramAnalysis/DEW/tags/release-1.1.1
-
+ 
  1: Download BlueJQS.zip and unzip in a directory that contains NO SPACES in the file path.
 
   - Suggested location to unzip BlueJQS.zip  is C: on Windows and ~/ on macOS or Linux.
