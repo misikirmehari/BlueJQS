@@ -63,7 +63,7 @@ behavior of the code during run-time.
 
  1: Download BlueJQS.zip and unzip in a directory that contains NO SPACES in the file path.
 
-  - Sugested location to unzip BlueJQS.zip  is C: on Windows and ~/ on macOS or Linux.
+  - Suggested location to unzip BlueJQS.zip  is C: on Windows and ~/ on macOS or Linux.
     (you will need to remember this location to configure BlueJ preferences)
 
     In the unzip BlueJQS folder you will find the following files:
@@ -92,7 +92,7 @@ behavior of the code during run-time.
    In the Preferences menu, under Extensions you must set BlueJQS Library Path to the
    BlueJQS folder that you unzipped in step 1. Use the select button to find the folder.
 
-BlueJQS is now sucessfully installed and configured.
+BlueJQS is now successfully installed and configured.
 
 
 # USAGE
@@ -102,7 +102,7 @@ BlueJQS is now sucessfully installed and configured.
  and at the bottom of the dialog menu click on 'Open Quality Suite Tools'. You will then
  see a drop down menu that prompts the user to choose one of the following three options
  ALL, PMD, or Checkstyle. This give the user the options of running tools individually, or
- recieving an analysis report from all the tools. The results from the analysis test(s)
+ receiving an analysis report from all the tools. The results from the analysis test(s)
  are then displayed to the user in a dialog box.
 
 
@@ -121,7 +121,7 @@ BlueJQS is now sucessfully installed and configured.
   
     mvn javadoc:javadoc
 
- To generate JavaDoc including private methods and attributs, run the following command:
+ To generate JavaDoc including private methods and attributes, run the following command:
 
     mvn javadoc:javadoc -Dshow=private
 
