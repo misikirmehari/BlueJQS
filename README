@@ -52,7 +52,7 @@
      - Write unit tests for Java classes.
      - Refactor suite output.
      - Add CheckStyle configuration option.
-    
+     - Create an installer for software.
 
 # INSTALLATION
 --------------
