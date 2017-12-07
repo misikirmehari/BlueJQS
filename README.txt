@@ -20,14 +20,14 @@
  source code using a suite of standard tools.
 
  This software is intended to support amateur Java programmers form a foundation of high-
- quality code practices and industry standards. Students can use our product in conjunctio
+ quality code practices and industry standards. Students can use our product in conjunction
  with BlueJ to assess the the quality of their code. Our product incorporates a collection
- of existing tools used to identify potential weaknessess in source code (e.g., potential
+ of existing tools used to identify potential weaknesses in source code (e.g., potential
  bugs, non-adherence to conventions, poor test coverage, etc.) via both static analysis, 
- which evaluates the source code itself, and dynamic analysis, which evaluate the 
+ which evaluates the source code itself, and dynamic analysis, which evaluates the
  behavior of the code during run-time.
 
-  - Current verison: BlueJQS v1.1.1
+  - Current version: BlueJQS v1.1.1
 
 
 # STATUS / TO-DO
@@ -39,10 +39,10 @@
  ** Limitations: 
     - BlueJ projects MUST be located in a directory where the path to that directory
       DOES NOT contain spaces. 
-      (e.g., ~/User/BlueJ Projects/helloWorld/ will crash the software) 
+      (e.g., '~/User/BlueJ Projects/HelloWorld.java' will crash the software)
     - The location of the BlueJQS folder (containing dependencies) MUST be placed in a
       location that DOES NOT contain spaces in the file path.
-      (e.g., C:\Program Files\Blue J\BlueJQS will crash the software) 
+      (e.g., 'C:\Program Files\Blue J\BlueJQS' will crash the software)
     - Currently google-checks.xml is hard-coded as the Checkstyle configuration.
 
  *** To Do list:
