@@ -72,6 +72,7 @@
      * google_checks.xml
      * pmd-bin-5.8.1/
      * README
+     * license/
 
  2: Copy the BlueJQualitySuite.jar file and paste into the BlueJ extensions folder.
 
