@@ -91,7 +91,7 @@
     BlueJ->Preferences for macOS, Tools->Preferences for Linux)
 
     In the Preferences menu, under Extensions you must set BlueJQS Library Path to the
-    BlueJQS folder that you unzipped in step 1. Use the select button to find the folder.
+    folder that you unzipped in step 1. Use the select button to find the folder.
 
  BlueJQS is now successfully installed and configured.
 
