@@ -20,34 +20,45 @@ import java.io.InputStreamReader;
  */
 
 public class MenuBuilder extends MenuGenerator {
-    // The line separator character.
+    /** The line separator character. */
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-    // The Frame of the menu being used.
+    
+    /** The Frame of the menu being used. */
     private final Frame frame;
-    // The name of the java file to use the suite on.
+    
+    /** The name of the java file to use the suite on. */
     private String javaFileName;
-    // The preferences of the extensions being used inside the suite.
+    
+    /** The preferences of the extensions being used inside the suite. */
     private final Preferences preferences;
-    // The size of the frame in the horizontal plane.
+    
+    /** The size of the frame in the horizontal plane. */
     private static int currentX;
-    // The size of the frame in the vertical plane.
+    
+    /** The size of the frame in the vertical plane. */
     private static int currentY;
-    // The name of the suite library.
+    
+    /** The name of the suite library. */
     private static final String SUITE_LIB_NAME = "BlueJQualitySuiteLibraries";
-    // The string all.
+    
+    /** The string all. */
     private static final String ALL = "ALL";
-    // The string PMD.
+    
+    /** The string PMD. */
     private static final String PMD = "PMD";
-    // The string of the PMD directory.
+    
+    /** The string of the PMD directory. */
     private static final String PMD_DIRECTORY_NAME = "pmd-bin-5.8.1";
-    // The string CheckStyle.
+    
+    /** The string CheckStyle. */
     private static final String CHECKSTYLE = "Checkstyle";
-    // The string of the checkstyle jar name.
+    
+    /** The string of the checkstyle jar name. */
     private static final String CHECKSTYLE_JAR_NAME = "checkstyle-8.5-all.jar";
 
     /**
      * Builds the menu from the preferences given.
-     * @param preferences The preferences for the extension being used
+     * @param preferences the preferences for the extension being used
      */
     public MenuBuilder(Preferences preferences) {
         this.frame = null;
@@ -57,7 +68,7 @@ public class MenuBuilder extends MenuGenerator {
     /**
      * Gets menu item of a given class.
      * @param aClass the class of the item to put on the menu
-     * @return The menu item to put in the suite menu
+     * @return the menu item to put in the suite menu
      */
     public JMenuItem getClassMenuItem(BClass aClass) {
         return new JMenuItem(new MenuAction("Open Quality Suite Tools"));
@@ -66,8 +77,8 @@ public class MenuBuilder extends MenuGenerator {
     /**
      * Called when a class file in BlueJ is clicked. Gets the java file of the
      * project the extension is running on.
-     * @param bc The class of the project
-     * @param jmi The menu item being used
+     * @param bc the class of the project
+     * @param jmi the menu item being used
      */
     public void notifyPostClassMenu(BClass bc, JMenuItem jmi) {
         try {
@@ -88,14 +99,14 @@ public class MenuBuilder extends MenuGenerator {
 
         /**
          * Starts the chosen extension.
-         * @param anEvent The event that occurred to start the extension
+         * @param anEvent the event that occurred to start the extension
          */
         public void actionPerformed(ActionEvent anEvent) {
-            // init starting position of first JFrame
+            // Init starting position of first JFrame.
             currentX = 0;
             currentY = 0;
 
-            // validate java file
+            // Validate java file.
             if (javaFileName == null || javaFileName.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(frame,
                         "No file selected", "Error", JOptionPane.ERROR_MESSAGE);
@@ -107,11 +118,11 @@ public class MenuBuilder extends MenuGenerator {
                 return;
             }
 
-            // build tools list to display
+            // Build tools list to display.
             String[] menuItemArray = {ALL, PMD, CHECKSTYLE};
 
-            // user makes tool choice
-            // reference: http://www.java2s.com/Code/Java/Swing-JFC/AnexampleofusingtheJOptionPanewithacustomlistofoptionsinan.htm
+            // User makes tool choice.
+            // Reference: http://www.java2s.com/Code/Java/Swing-JFC/AnexampleofusingtheJOptionPanewithacustomlistofoptionsinan.htm
             // For maintainers, this function call requires you to give a parent component, message, title,
             // the message type, the icon is being used, the list being used, and the initial selection in that order.
             String toolChoice = (String) JOptionPane.showInputDialog(null,
@@ -139,7 +150,7 @@ public class MenuBuilder extends MenuGenerator {
     /**
      * Starts the chosen extension with the given command and prints the results.
      * @param menuItemName the name of the extension chosen
-     * @param command The command to perform
+     * @param command the command to perform
      */
     private void doMenuAction(String menuItemName, String command) {
         try {
@@ -159,7 +170,9 @@ public class MenuBuilder extends MenuGenerator {
     /**
      * Starts the extension with the given command.
      * @param myCommand the command given that starts the process
-     * @return The output of the process started
+     * @return the output of the process started
+     * @throws IOException If an input exception occurs
+     * @throws InterruptedException If process has been interrupted
      */
     private String runCommand(String myCommand) throws IOException, InterruptedException {
         System.out.println("Running command: '" + myCommand + "'");
@@ -208,8 +221,8 @@ public class MenuBuilder extends MenuGenerator {
 
     /**
      * Creates the scroll panel inside the dialog pop-up.
-     * @param title The title of the extension ran
-     * @param text The text generated from the extension
+     * @param title the title of the extension ran
+     * @param text the text generated from the extension
      */
     private void createJScrollPane(String title, String text) {
         JFrame frame;
@@ -253,7 +266,7 @@ public class MenuBuilder extends MenuGenerator {
 
     /**
      * Runs the Checkstyle extension.
-     * @param suiteLibPath The path to the suite library.
+     * @param suiteLibPath the path to the suite library.
      */
     private void runCheckstyle(String suiteLibPath) {
         String command = "java -jar " + suiteLibPath + "/" + CHECKSTYLE_JAR_NAME +  " -c "

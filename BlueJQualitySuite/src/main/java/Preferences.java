@@ -20,26 +20,34 @@ import java.io.File;
  */
 
 public class Preferences implements PreferenceGenerator {
-    // The panel to display to the user.
+    /** The panel to display to the user. */
     private JPanel panel;
-    // The field to put the path to PMD in.
+    
+    /** The field to put the path to PMD in. */
     private JTextField pmdPath;
-    // The field to change the option of PMD.
+    
+    /** The field to change the option of PMD. */
     private JTextField pmdOptions;
-    // The instance of BlueJ being used.
+    
+    /** The instance of BlueJ being used. */
     private final BlueJ bluej;
-    // The string PMD.Path.
+    
+    /** The string PMD.Path. */
     private static final String PROPERTY_PMD_PATH = "PMD.Path";
-    // The string PMD.Options.
+    
+    /** The string PMD.Options. */
     private static final String PROPERTY_PMD_OPTIONS = "PMD.Options";
-    // The string of the default option of PMD.
+    
+    /** The string of the default option of PMD. */
     private static final String PMD_OPTIONS_DEFAULT = "-format text -R java-basic,java-design -version 1.8 -language java";
 
-    // Constructor with the parameter for the instance of BlueJ being used.
+    /** Constructor with the parameter for the instance of BlueJ being used.
+     *  @param bluej the instance of BlueJ being used
+     */
     public Preferences(BlueJ bluej) {
         this.bluej = bluej;
         renderPanel();
-        loadValues(); // Load the default/initial values
+        loadValues(); // Load the default/initial values.
     }
 
     /**
@@ -111,7 +119,7 @@ public class Preferences implements PreferenceGenerator {
     /**
      * Verifies the path for the suite is correct.
      * @param selectedFile the file that contains the suite
-     * @return Returns true if the file is correct
+     * @return true if the file is correct
      */
     private boolean verifySuiteLibPath(File selectedFile) {
         File pathToExecutable;
@@ -125,7 +133,7 @@ public class Preferences implements PreferenceGenerator {
 
     /**
      * Gets the panel being used.
-     * @return The panel being used for preferences
+     * @return the panel being used for preferences
      */
     public JPanel getPanel ()  { return panel; }
 
@@ -147,7 +155,7 @@ public class Preferences implements PreferenceGenerator {
 
     /**
      * Gets the PMD options chosen.
-     * @return The options of PMD
+     * @return the options of PMD
      */
     public final String getPMDOptions() {
         return bluej.getExtensionPropertyString(PROPERTY_PMD_OPTIONS, PMD_OPTIONS_DEFAULT);
@@ -155,7 +163,7 @@ public class Preferences implements PreferenceGenerator {
 
     /**
      * Gets the path to the suite.
-     * @return The path to the suite
+     * @return the path to the suite
      */
     public final String getSuiteLibPath() {
         return bluej.getExtensionPropertyString(PROPERTY_PMD_PATH, "");

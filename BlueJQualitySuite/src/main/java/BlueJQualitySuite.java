@@ -14,21 +14,26 @@ import bluej.extensions.event.*;
  * @version 1.1.0
  */
 public class BlueJQualitySuite extends Extension implements PackageListener {
-
+    /** Project suite BlueJQS most current version. */
     private static final String VERSION = "1.1.0";
+    
+    /** Name of this project suite. */
     static final String SUITE_NAME = "BlueJQS";
+    
     /**
      * Starts the BlueJQualitySuite.
+     * @param bluej the instance of BlueJ being used
      */
     public void startup (BlueJ bluej) {
-        // Register a "preferences" panel generator
+        
+        // Register a "preferences" panel generator.
         Preferences myPreferences = new Preferences(bluej);
         bluej.setPreferenceGenerator(myPreferences);
 
-        // Register a generator for menu items
+        // Register a generator for menu items.
         bluej.setMenuGenerator(new MenuBuilder(myPreferences));
 
-        // Listen for BlueJ events at the "package" level
+        // Listen for BlueJ events at the "package" level.
         bluej.addPackageListener(this);
     }
 
@@ -36,7 +41,7 @@ public class BlueJQualitySuite extends Extension implements PackageListener {
      * A package has been opened. Print the name of the project it is part of.
      * System.out is redirected to the BlueJ debug log file.
      * The location of this file is given in the Help/About BlueJ dialog box.
-     * @param ev The package event that occurred, ie a package has been open
+     * @param ev the package event that occurred, ie a package has been open
      */
     public void packageOpened (PackageEvent ev) {
         try {
@@ -48,31 +53,31 @@ public class BlueJQualitySuite extends Extension implements PackageListener {
 
     /**
      * A package is closing.
-     * @param ev The package event that occurred, ie a package closing
+     * @param ev the package event that occurred, ie a package closing
      */
     public void packageClosing ( PackageEvent ev ) {
     }
 
     /**
      * This method must decide if this Extension is compatible with the
-     * current release of the BlueJ Extensions API
-     * @return If the extension is compatible with the BlueJ Extensions API
+     * current release of the BlueJ Extensions API.
+     * @return true if the extension is compatible with the BlueJ Extensions API
      */
     public boolean isCompatible () {
         return true;
     }
 
     /**
-     * Returns the version number of this extension
+     * Returns the version number of this extension.
      * @return the version number of the extension
      */
-    public String  getVersion () {
+    public String getVersion () {
         return (SUITE_NAME + " " + VERSION);
     }
 
     /**
-     * Returns the user-visible name of this extension
-     * @return The name of the extension being used
+     * Returns the user-visible name of this extension.
+     * @return the name of the extension being used
      */
     public String  getName () {
         return (SUITE_NAME);
@@ -87,7 +92,7 @@ public class BlueJQualitySuite extends Extension implements PackageListener {
 
     /**
      * Get the description of the extension.
-     * @return The description of the extension being used
+     * @return the description of the extension being used
      */
     public String getDescription () {
         return ("BlueJ extension for " + SUITE_NAME);
