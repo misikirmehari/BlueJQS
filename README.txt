@@ -19,9 +19,9 @@
  BlueJQS is an extension for BlueJ v4.1.1 that provides users the ability to analyze 
  source code using a suite of standard tools.
 
- This software is intended to support novice Java programmers form a foundation of high-
+ This software is intended to support novice Java programmers to form a foundation of high-
  quality code practices and industry standards. Students can use our product in conjunction
- with BlueJ to assess the the quality of their code. Our product incorporates a collection
+ with BlueJ to assess the quality of their code. Our product incorporates a collection
  of existing tools used to identify potential weaknesses in source code (e.g., potential
  bugs, non-adherence to conventions, poor test coverage, etc.) via both static analysis, 
  which evaluates the source code itself, and dynamic analysis, which evaluates the
@@ -103,7 +103,7 @@
  To use the software suite, open the main class window. Right click on a class object
  and at the bottom of the dialog menu click on 'Open Quality Suite Tools'. You will then
  see a drop down menu that prompts the user to choose one of the following three options
- ALL, PMD, or Checkstyle. This give the user the options of running tools individually, or
+ ALL, PMD, or Checkstyle. This gives the user the options of running tools individually, or
  receiving an analysis report from all the tools. The results from the analysis test(s)
  are then displayed to the user in a dialog box.
 
@@ -114,7 +114,7 @@
  This software uses Maven as a build environment. To build the project from sources, 
  Maven must be installed on your machine.
 
- To build project from source code - from the command line, navigate to the pom.xml file 
+ To build the project from source code - from the command line, navigate to the pom.xml file 
  that can be found in release-1.1.1/BlueJQualitySuite/ and run:
    
     mvn clean install
