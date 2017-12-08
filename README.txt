@@ -19,7 +19,7 @@
  BlueJQS is an extension for BlueJ v4.1.1 that provides users the ability to analyze 
  source code using a suite of standard tools.
 
- This software is intended to support amateur Java programmers form a foundation of high-
+ This software is intended to support novice Java programmers form a foundation of high-
  quality code practices and industry standards. Students can use our product in conjunction
  with BlueJ to assess the the quality of their code. Our product incorporates a collection
  of existing tools used to identify potential weaknesses in source code (e.g., potential
@@ -48,10 +48,10 @@
  *** To Do list:
      - Fix space issue with location of project and location of dependency folder.
      - Incorporate suite dependency files into extension jar.
-     - Add spot-bugs analysis functionality.
+     - Add functionality for SpotBugs.
      - Write unit tests for Java classes.
      - Refactor suite output.
-     - Add CheckStyle configuration option.
+     - Add Checkstyle configuration option.
      - Create an installer for software.
 
 # INSTALLATION
@@ -63,8 +63,9 @@
  
  1: Download BlueJQS.zip and unzip in a directory that contains NO SPACES in the file path.
 
-  - Suggested location to unzip BlueJQS.zip  is C: on Windows and ~/ on macOS or Linux.
-    (you will need to remember this location to configure BlueJ preferences)
+  - Suggested location to unzip BlueJQS.zip is C:\User\[username]\Documents on Windows 
+    (assuming the username has no spaces) and ~/ on macOS or Linux.
+    You will need to remember this location to configure BlueJ preferences.
 
     In the unzip BlueJQS folder you will find the following files:
      * BlueJQualitySuite.jar
@@ -118,7 +119,7 @@
    
     mvn clean install
 
- To generate JavaDoc API, run the following command: 
+ To generate Javadoc API, run the following command: 
   
     mvn javadoc:javadoc
 
@@ -149,7 +150,7 @@
 
  Licenses for any BlueJQS dependencies can be found in release-X.X.X/license and in 
  BlueJQS.zip - in BlueJQS/license/
- Current dependency licenses: CheckStyle, PMD.
+ Current dependency licenses: Checkstyle, PMD.
 
  BlueJQS uses the GNU public license as follows:
 
@@ -611,3 +612,4 @@
  DAMAGES.
  
                       END OF TERMS AND CONDITIONS
+
