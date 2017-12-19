@@ -59,7 +59,7 @@
  
  The current software release can be found here:
 
-    https://gouda.msudenver.edu/cs4250/JavaProgramAnalysis/DEW/tags/release-1.1.1
+    https://github.com/JHunterHobbs/BlueJQS/releases/tag/svn%2Ftags%2Frelease-1.1.1
  
  1: Download BlueJQS.zip and unzip in a directory that contains NO SPACES in the file path.
 
